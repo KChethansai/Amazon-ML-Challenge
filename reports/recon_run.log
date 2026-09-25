@@ -1,0 +1,41 @@
+scanning train_source1.tsv
+/home/chethan/Projects/ML Challenge/recon_exhaustive.py:19: DeprecationWarning: `read_csv_batched` is deprecated; use `scan_csv().collect_batches()` instead.
+  for chunk in pl.read_csv_batched(
+Traceback (most recent call last):
+  File "/home/chethan/Projects/ML Challenge/recon_exhaustive.py", line 68, in <module>
+    globals()[t + "_ids"] = scan_source(os.path.join(D, f), t)
+                            ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chethan/Projects/ML Challenge/recon_exhaustive.py", line 19, in scan_source
+    for chunk in pl.read_csv_batched(
+                 ~~~~~~~~~~~~~~~~~~~^
+        path, separator="\t", has_header=True, columns=COLS,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        batch_size=200_000, infer_schema_length=10_000, null_values=[""],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        truncate_ragged_lines=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/usr/lib/python3.14/_py_warnings.py", line 800, in wrapper
+    return arg(*args, **kwargs)
+  File "/home/chethan/Projects/ML Challenge/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  File "/home/chethan/Projects/ML Challenge/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  File "/home/chethan/Projects/ML Challenge/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  [Previous line repeated 1 more time]
+  File "/home/chethan/Projects/ML Challenge/.venv/lib/python3.14/site-packages/polars/io/csv/functions.py", line 1087, in read_csv_batched
+    return BatchedCsvReader(
+        source,
+    ...<26 lines>...
+        decimal_comma=decimal_comma,
+    )
+  File "/home/chethan/Projects/ML Challenge/.venv/lib/python3.14/site-packages/polars/io/csv/batched_reader.py", line 84, in __init__
+    q.collect_schema()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/chethan/Projects/ML Challenge/.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py", line 2760, in collect_schema
+    return Schema(self._ldf.collect_schema(), check_dtypes=False)
+                  ~~~~~~~~~~~~~~~~~~~~~~~~^^
+FileNotFoundError: No such file or directory (os error 2): ./train_source1.tsv
+EXIT=1 PEAK_RSS_MB=45

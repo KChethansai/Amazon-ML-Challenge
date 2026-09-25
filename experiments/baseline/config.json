@@ -1,0 +1,26 @@
+{
+  "best_threshold": 0.65,
+  "best_val_f05": 0.8983733315005266,
+  "feature_names": [
+    "name_token_set",
+    "name_token_sort",
+    "name_ratio",
+    "name_exact",
+    "name_jaccard",
+    "name_ngram_jaccard",
+    "name_len_diff",
+    "addr_token_set",
+    "addr_token_sort",
+    "addr_ratio",
+    "addr_jaccard",
+    "num_overlap",
+    "has_matching_digits",
+    "addr_missing",
+    "addr_len_diff",
+    "composite_score",
+    "is_s2"
+  ],
+  "num_train_s1": 35000,
+  "num_val_s1": 10000,
+  "trained_date": "2026-09-25 16:47:00"
+}

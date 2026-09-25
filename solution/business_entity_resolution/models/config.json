@@ -1,0 +1,28 @@
+{
+  "best_threshold": 0.74,
+  "best_val_f05": 0.9339736007773619,
+  "delta_vs_baseline": 0.03560360077736191,
+  "feature_names": [
+    "name_token_set",
+    "name_token_sort",
+    "name_ratio",
+    "name_exact",
+    "name_jaccard",
+    "name_ngram_jaccard",
+    "name_len_diff",
+    "addr_token_set",
+    "addr_token_sort",
+    "addr_ratio",
+    "addr_jaccard",
+    "num_overlap",
+    "has_matching_digits",
+    "addr_missing",
+    "addr_len_diff",
+    "composite_score",
+    "is_s2"
+  ],
+  "max_candidates": 35,
+  "num_train_s1": 25000,
+  "num_val_s1": 5000,
+  "trained_date": "2026-09-25 19:34:19"
+}
