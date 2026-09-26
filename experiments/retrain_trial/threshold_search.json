@@ -1,0 +1,7 @@
+{
+  "tau_singleton": 0.7,
+  "tau_min": 0.3,
+  "delta_margin": 0.24,
+  "macro_f05": 0.9498475735797562,
+  "precision": 0.9905578936009496
+}

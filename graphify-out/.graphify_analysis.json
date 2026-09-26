@@ -1,0 +1,354 @@
+{
+  "communities": {
+    "0": [
+      "solution_business_entity_resolution_src_features",
+      "solution_business_entity_resolution_src_features_char_ngrams",
+      "solution_business_entity_resolution_src_features_compute_candidate_features_for_s1",
+      "solution_business_entity_resolution_src_features_compute_pairwise_features",
+      "solution_business_entity_resolution_src_features_get_acronym",
+      "solution_business_entity_resolution_src_features_jaccard_similarity",
+      "solution_business_entity_resolution_src_features_rationale_13",
+      "solution_business_entity_resolution_src_features_rationale_19",
+      "solution_business_entity_resolution_src_features_rationale_229",
+      "solution_business_entity_resolution_src_features_rationale_29",
+      "solution_business_entity_resolution_src_features_rationale_40",
+      "solution_business_entity_resolution_src_inference",
+      "solution_business_entity_resolution_src_inference_resolve_default_paths",
+      "solution_business_entity_resolution_src_inference_run_inference",
+      "solution_business_entity_resolution_src_normalization",
+      "solution_business_entity_resolution_src_normalization_clean_unicode_to_ascii",
+      "solution_business_entity_resolution_src_normalization_extract_address_blocking_keys",
+      "solution_business_entity_resolution_src_normalization_extract_address_digits",
+      "solution_business_entity_resolution_src_normalization_extract_name_tokens",
+      "solution_business_entity_resolution_src_normalization_normalize_address",
+      "solution_business_entity_resolution_src_normalization_normalize_name",
+      "solution_business_entity_resolution_src_normalization_rationale_104",
+      "solution_business_entity_resolution_src_normalization_rationale_42",
+      "solution_business_entity_resolution_src_normalization_rationale_52",
+      "solution_business_entity_resolution_src_normalization_rationale_68",
+      "solution_business_entity_resolution_src_normalization_rationale_80",
+      "solution_business_entity_resolution_src_normalization_rationale_90",
+      "solution_business_entity_resolution_src_train",
+      "solution_business_entity_resolution_src_train_calculate_macro_f05",
+      "solution_business_entity_resolution_src_train_evaluate_metrics",
+      "solution_business_entity_resolution_src_train_rationale_20",
+      "solution_business_entity_resolution_src_train_rationale_60",
+      "solution_business_entity_resolution_src_train_resolve_default_train_paths",
+      "solution_business_entity_resolution_src_train_train_pipeline"
+    ],
+    "1": [
+      "experiments_baseline_code_features",
+      "experiments_baseline_code_features_char_ngrams",
+      "experiments_baseline_code_features_compute_pairwise_features",
+      "experiments_baseline_code_features_jaccard_similarity",
+      "experiments_baseline_code_features_rationale_11",
+      "experiments_baseline_code_features_rationale_21",
+      "experiments_baseline_code_features_rationale_5",
+      "experiments_baseline_code_inference",
+      "experiments_baseline_code_inference_resolve_default_paths",
+      "experiments_baseline_code_inference_run_inference",
+      "experiments_baseline_code_normalization",
+      "experiments_baseline_code_normalization_clean_unicode_to_ascii",
+      "experiments_baseline_code_normalization_extract_address_blocking_keys",
+      "experiments_baseline_code_normalization_extract_address_digits",
+      "experiments_baseline_code_normalization_extract_name_tokens",
+      "experiments_baseline_code_normalization_normalize_address",
+      "experiments_baseline_code_normalization_normalize_name",
+      "experiments_baseline_code_normalization_rationale_42",
+      "experiments_baseline_code_normalization_rationale_52",
+      "experiments_baseline_code_normalization_rationale_68",
+      "experiments_baseline_code_normalization_rationale_80",
+      "experiments_baseline_code_normalization_rationale_90",
+      "experiments_baseline_code_normalization_rationale_97",
+      "experiments_baseline_code_train",
+      "experiments_baseline_code_train_calculate_macro_f05",
+      "experiments_baseline_code_train_rationale_20",
+      "experiments_baseline_code_train_resolve_default_train_paths",
+      "experiments_baseline_code_train_train_pipeline",
+      "experiments_eval_holdout_main",
+      "experiments_exp_001_blocking_test_blocking_improvements_main",
+      "experiments_exp_002_model_train_eval_experiment_main",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_main"
+    ],
+    "2": [
+      "scripts_validate_submission_fast",
+      "scripts_validate_submission_fast_examples",
+      "scripts_validate_submission_fast_get_peak_memory_mb",
+      "scripts_validate_submission_fast_load_match_targets",
+      "scripts_validate_submission_fast_main",
+      "scripts_validate_submission_fast_rationale_157",
+      "scripts_validate_submission_fast_rationale_29",
+      "scripts_validate_submission_fast_rationale_38",
+      "scripts_validate_submission_fast_rationale_46",
+      "scripts_validate_submission_fast_rationale_54",
+      "scripts_validate_submission_fast_rationale_70",
+      "scripts_validate_submission_fast_read_ids",
+      "scripts_validate_submission_fast_validate",
+      "scripts_validate_submission_fast_validate_candidate_file_streaming",
+      "scripts_validate_submission_fast_validate_matching_file"
+    ],
+    "3": [
+      "experiments_baseline_code_blocking",
+      "experiments_baseline_code_blocking_countryblockingindex",
+      "experiments_baseline_code_blocking_countryblockingindex_add_target_record",
+      "experiments_baseline_code_blocking_countryblockingindex_init",
+      "experiments_baseline_code_blocking_countryblockingindex_prune_frequent_keys",
+      "experiments_baseline_code_blocking_countryblockingindex_query_candidates",
+      "experiments_baseline_code_blocking_rationale_25",
+      "experiments_baseline_code_blocking_rationale_44",
+      "experiments_baseline_code_blocking_rationale_58",
+      "experiments_baseline_code_blocking_rationale_9",
+      "scripts_diagnose_blocking_errors",
+      "scripts_diagnose_blocking_errors_has_indic_char",
+      "scripts_diagnose_blocking_errors_has_url_handle",
+      "scripts_diagnose_blocking_errors_main"
+    ],
+    "4": [
+      "solution_business_entity_resolution_src_blocking",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_add_target_record",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_init",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_prune_frequent_keys",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_query_candidates",
+      "solution_business_entity_resolution_src_blocking_extract_acronyms",
+      "solution_business_entity_resolution_src_blocking_extract_postal_prefixes",
+      "solution_business_entity_resolution_src_blocking_rationale_104",
+      "solution_business_entity_resolution_src_blocking_rationale_13",
+      "solution_business_entity_resolution_src_blocking_rationale_141",
+      "solution_business_entity_resolution_src_blocking_rationale_31",
+      "solution_business_entity_resolution_src_blocking_rationale_37",
+      "solution_business_entity_resolution_src_blocking_rationale_67"
+    ],
+    "5": [
+      "student_resource_utils_validate_submission",
+      "student_resource_utils_validate_submission_examples",
+      "student_resource_utils_validate_submission_load_match_targets",
+      "student_resource_utils_validate_submission_main",
+      "student_resource_utils_validate_submission_rationale_219",
+      "student_resource_utils_validate_submission_rationale_53",
+      "student_resource_utils_validate_submission_rationale_63",
+      "student_resource_utils_validate_submission_rationale_72",
+      "student_resource_utils_validate_submission_rationale_95",
+      "student_resource_utils_validate_submission_read_ids",
+      "student_resource_utils_validate_submission_validate",
+      "student_resource_utils_validate_submission_validate_id_list_file"
+    ],
+    "6": [
+      "experiments_exp_002_model_train_eval_experiment",
+      "experiments_exp_002_model_train_eval_experiment_char_ngrams",
+      "experiments_exp_002_model_train_eval_experiment_compute_expanded_features",
+      "experiments_exp_002_model_train_eval_experiment_extract_advanced_keys",
+      "experiments_exp_002_model_train_eval_experiment_fastmultipassindex",
+      "experiments_exp_002_model_train_eval_experiment_fastmultipassindex_add_target",
+      "experiments_exp_002_model_train_eval_experiment_fastmultipassindex_init",
+      "experiments_exp_002_model_train_eval_experiment_fastmultipassindex_query",
+      "experiments_exp_002_model_train_eval_experiment_jaccard"
+    ],
+    "7": [
+      "experiments_eval_holdout",
+      "experiments_eval_holdout_cleanmultipassindex",
+      "experiments_eval_holdout_cleanmultipassindex_add_target",
+      "experiments_eval_holdout_cleanmultipassindex_init",
+      "experiments_eval_holdout_cleanmultipassindex_prune",
+      "experiments_eval_holdout_cleanmultipassindex_query",
+      "experiments_eval_holdout_extract_advanced_keys"
+    ],
+    "8": [
+      "experiments_exp_001_blocking_test_blocking_improvements",
+      "experiments_exp_001_blocking_test_blocking_improvements_extract_advanced_keys",
+      "experiments_exp_001_blocking_test_blocking_improvements_multipassblockingindex",
+      "experiments_exp_001_blocking_test_blocking_improvements_multipassblockingindex_add_target",
+      "experiments_exp_001_blocking_test_blocking_improvements_multipassblockingindex_init",
+      "experiments_exp_001_blocking_test_blocking_improvements_multipassblockingindex_query",
+      "experiments_exp_001_blocking_test_blocking_improvements_rationale_38"
+    ],
+    "9": [
+      "experiments_exp_001_blocking_test_blocking_improvements_v2",
+      "experiments_exp_001_blocking_test_blocking_improvements_v2_extract_advanced_keys_v2",
+      "experiments_exp_001_blocking_test_blocking_improvements_v2_main",
+      "experiments_exp_001_blocking_test_blocking_improvements_v2_multipassblockingindexv2",
+      "experiments_exp_001_blocking_test_blocking_improvements_v2_multipassblockingindexv2_add_target",
+      "experiments_exp_001_blocking_test_blocking_improvements_v2_multipassblockingindexv2_init",
+      "experiments_exp_001_blocking_test_blocking_improvements_v2_multipassblockingindexv2_query"
+    ],
+    "10": [
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_add_target",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_init",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_prune",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_query",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_extract_advanced_keys"
+    ],
+    "11": [
+      "scripts_create_validation_split",
+      "scripts_create_validation_split_get_match_bucket",
+      "scripts_create_validation_split_main"
+    ],
+    "12": [
+      "scripts_recon_exhaustive",
+      "scripts_recon_exhaustive_scan_source"
+    ]
+  },
+  "cohesion": {
+    "0": 0.12477718360071301,
+    "1": 0.14717741935483872,
+    "2": 0.23809523809523808,
+    "3": 0.16483516483516483,
+    "4": 0.18681318681318682,
+    "5": 0.2727272727272727,
+    "6": 0.3333333333333333,
+    "7": 0.38095238095238093,
+    "8": 0.38095238095238093,
+    "9": 0.42857142857142855,
+    "10": 0.38095238095238093,
+    "11": 1.0,
+    "12": 1.0
+  },
+  "gods": [
+    {
+      "id": "experiments_baseline_code_blocking_countryblockingindex",
+      "label": "CountryBlockingIndex",
+      "degree": 13
+    },
+    {
+      "id": "experiments_baseline_code_normalization_normalize_address",
+      "label": "normalize_address()",
+      "degree": 12
+    },
+    {
+      "id": "experiments_baseline_code_normalization_normalize_name",
+      "label": "normalize_name()",
+      "degree": 12
+    },
+    {
+      "id": "solution_business_entity_resolution_src_train_train_pipeline",
+      "label": "train_pipeline()",
+      "degree": 11
+    },
+    {
+      "id": "experiments_baseline_code_normalization_extract_name_tokens",
+      "label": "extract_name_tokens()",
+      "degree": 11
+    },
+    {
+      "id": "solution_business_entity_resolution_src_blocking_countryblockingindex",
+      "label": "CountryBlockingIndex",
+      "degree": 10
+    },
+    {
+      "id": "experiments_baseline_code_features_compute_pairwise_features",
+      "label": "compute_pairwise_features()",
+      "degree": 10
+    },
+    {
+      "id": "solution_business_entity_resolution_src_features_compute_candidate_features_for_s1",
+      "label": "compute_candidate_features_for_s1()",
+      "degree": 9
+    },
+    {
+      "id": "solution_business_entity_resolution_src_features_compute_pairwise_features",
+      "label": "compute_pairwise_features()",
+      "degree": 9
+    },
+    {
+      "id": "solution_business_entity_resolution_src_inference_run_inference",
+      "label": "run_inference()",
+      "degree": 9
+    }
+  ],
+  "surprises": [
+    {
+      "source": "run_inference()",
+      "target": "CountryBlockingIndex",
+      "source_files": [
+        "solution/business_entity_resolution/src/inference.py",
+        "experiments/baseline/code/blocking.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "train_pipeline()",
+      "target": "CountryBlockingIndex",
+      "source_files": [
+        "solution/business_entity_resolution/src/train.py",
+        "experiments/baseline/code/blocking.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "main()",
+      "target": "CountryBlockingIndex",
+      "source_files": [
+        "scripts/diagnose_blocking_errors.py",
+        "experiments/baseline/code/blocking.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "main()",
+      "target": "extract_name_tokens()",
+      "source_files": [
+        "experiments/exp_001_blocking/test_blocking_improvements_v2.py",
+        "experiments/baseline/code/normalization.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "main()",
+      "target": "normalize_address()",
+      "source_files": [
+        "experiments/exp_001_blocking/test_blocking_improvements_v2.py",
+        "experiments/baseline/code/normalization.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `CountryBlockingIndex` connect `CountryBlockingIndex` to `src/train.py`, `normalize_address`?",
+      "why": "High betweenness centrality (0.376) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `train_pipeline()` connect `src/train.py` to `CountryBlockingIndex`, `CountryBlockingIndex`?",
+      "why": "High betweenness centrality (0.171) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `run_inference()` connect `src/train.py` to `CountryBlockingIndex`, `CountryBlockingIndex`?",
+      "why": "High betweenness centrality (0.140) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 3 inferred relationships involving `CountryBlockingIndex` (e.g. with `main()` and `run_inference()`) actually correct?",
+      "why": "`CountryBlockingIndex` has 3 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 5 inferred relationships involving `normalize_address()` (e.g. with `main()` and `main()`) actually correct?",
+      "why": "`normalize_address()` has 5 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 5 inferred relationships involving `normalize_name()` (e.g. with `main()` and `main()`) actually correct?",
+      "why": "`normalize_name()` has 5 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 5 inferred relationships involving `extract_name_tokens()` (e.g. with `main()` and `main()`) actually correct?",
+      "why": "`extract_name_tokens()` has 5 INFERRED edges - model-reasoned connections that need verification."
+    }
+  ]
+}

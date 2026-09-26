@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "macro_f05": 0.9457680197011399,
+    "precision": 0.9913117509659674,
+    "recall": 0.8737589471253752,
+    "singleton_accuracy": 0.954599761051374,
+    "pred_singletons": 1003,
+    "total_entities": 14998
+  },
+  "frozen_graph_rule": {
+    "macro_f05": 0.9497547984072268,
+    "precision": 0.9909561556142725,
+    "recall": 0.8875933194797199,
+    "singleton_accuracy": 0.954599761051374,
+    "pred_singletons": 1003,
+    "total_entities": 14998
+  },
+  "score_min": 0.999,
+  "bridge_min_name_address": 80
+}

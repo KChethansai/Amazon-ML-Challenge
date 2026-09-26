@@ -1,0 +1,72 @@
+{
+  "macro_f05": 0.4795124679099012,
+  "precision": 0.19484881953844493,
+  "recall": 0.9029284999615177,
+  "singleton_accuracy": 0.954599761051374,
+  "pred_singletons": 1003,
+  "total_entities": 14998,
+  "group_metrics": {
+    "country:India": {
+      "macro_f05": 0.3640701753565254,
+      "precision": 0.1503109710589601,
+      "recall": 0.8721970936387258,
+      "singleton_accuracy": 0.9462686567164179,
+      "pred_singletons": 461,
+      "total_entities": 6003
+    },
+    "cardinality:multi": {
+      "macro_f05": 0.45272433520694966,
+      "precision": 0.19802667374996252,
+      "recall": 0.9034439623157813,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 102,
+      "total_entities": 13351
+    },
+    "script:latin": {
+      "macro_f05": 0.4795124679099012,
+      "precision": 0.19484881953844493,
+      "recall": 0.9029284999615177,
+      "singleton_accuracy": 0.954599761051374,
+      "pred_singletons": 1003,
+      "total_entities": 14998
+    },
+    "country:US": {
+      "macro_f05": 0.5565552786044999,
+      "precision": 0.239513339099195,
+      "recall": 0.9234049374799616,
+      "singleton_accuracy": 0.9601593625498008,
+      "pred_singletons": 542,
+      "total_entities": 8995
+    },
+    "cardinality:one": {
+      "macro_f05": 0.4301301164996467,
+      "precision": 0.09584013050570962,
+      "recall": 0.8703703703703703,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 102,
+      "total_entities": 810
+    },
+    "cardinality:singleton": {
+      "macro_f05": 0.954599761051374,
+      "precision": 0.0,
+      "recall": 0.0,
+      "singleton_accuracy": 0.954599761051374,
+      "pred_singletons": 799,
+      "total_entities": 837
+    }
+  },
+  "candidate_recall": 0.946067113060879,
+  "candidates": 1094737,
+  "runtime_seconds": 275.7175989151001,
+  "target_pool": {
+    "India": 222052,
+    "US": 330746
+  },
+  "seed_holdout_targets": true,
+  "graph_expand": true,
+  "background_per_source": 200000,
+  "country_candidate_recall": {
+    "India": 0.9227215859878741,
+    "US": 0.9616223148445014
+  }
+}

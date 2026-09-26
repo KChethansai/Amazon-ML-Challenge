@@ -1,0 +1,71 @@
+{
+  "macro_f05": 0.948783900568616,
+  "precision": 0.9922556719022687,
+  "recall": 0.8750901832523688,
+  "singleton_accuracy": 0.9648093841642229,
+  "pred_singletons": 395,
+  "total_entities": 6000,
+  "group_metrics": {
+    "country:US": {
+      "macro_f05": 0.9632329694771945,
+      "precision": 0.9941010515516799,
+      "recall": 0.906101457180706,
+      "singleton_accuracy": 0.9627906976744186,
+      "pred_singletons": 230,
+      "total_entities": 3728
+    },
+    "cardinality:multi": {
+      "macro_f05": 0.9504626472872209,
+      "precision": 0.9931806841492488,
+      "recall": 0.8745789191036469,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 40,
+      "total_entities": 5351
+    },
+    "script:latin": {
+      "macro_f05": 0.948783900568616,
+      "precision": 0.9922556719022687,
+      "recall": 0.8750901832523688,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    "country:India": {
+      "macro_f05": 0.9250752170777796,
+      "precision": 0.9890043681277301,
+      "recall": 0.8250816788137723,
+      "singleton_accuracy": 0.9682539682539683,
+      "pred_singletons": 165,
+      "total_entities": 2272
+    },
+    "cardinality:singleton": {
+      "macro_f05": 0.9648093841642229,
+      "precision": 0.0,
+      "recall": 0.0,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 329,
+      "total_entities": 341
+    },
+    "cardinality:one": {
+      "macro_f05": 0.9018759018759018,
+      "precision": 0.975609756097561,
+      "recall": 0.9090909090909091,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 26,
+      "total_entities": 308
+    }
+  },
+  "candidate_recall": 0.9182819489202059,
+  "candidates": 359190,
+  "runtime_seconds": 185.78496503829956,
+  "target_pool": {
+    "India": 222052,
+    "US": 330746
+  },
+  "seed_holdout_targets": true,
+  "background_per_source": 200000,
+  "country_candidate_recall": {
+    "US": 0.9452193563469181,
+    "India": 0.8748429253581301
+  }
+}

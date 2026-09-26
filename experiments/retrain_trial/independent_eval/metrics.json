@@ -1,0 +1,71 @@
+{
+  "macro_f05": 0.9457680197011401,
+  "precision": 0.9913117509659674,
+  "recall": 0.8737589471253752,
+  "singleton_accuracy": 0.954599761051374,
+  "pred_singletons": 1003,
+  "total_entities": 14998,
+  "group_metrics": {
+    "country:India": {
+      "macro_f05": 0.919094651922241,
+      "precision": 0.9886838440111421,
+      "recall": 0.8197959772880378,
+      "singleton_accuracy": 0.9462686567164179,
+      "pred_singletons": 461,
+      "total_entities": 6003
+    },
+    "cardinality:multi": {
+      "macro_f05": 0.9505210499030392,
+      "precision": 0.992606407779924,
+      "recall": 0.8738125952855635,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 102,
+      "total_entities": 13351
+    },
+    "script:latin": {
+      "macro_f05": 0.9457680197011401,
+      "precision": 0.9913117509659674,
+      "recall": 0.8737589471253752,
+      "singleton_accuracy": 0.954599761051374,
+      "pred_singletons": 1003,
+      "total_entities": 14998
+    },
+    "country:US": {
+      "macro_f05": 0.9635690454684251,
+      "precision": 0.9928963852048851,
+      "recall": 0.9097146521320936,
+      "singleton_accuracy": 0.9601593625498008,
+      "pred_singletons": 542,
+      "total_entities": 8995
+    },
+    "cardinality:one": {
+      "macro_f05": 0.8582990397805212,
+      "precision": 0.9657534246575342,
+      "recall": 0.8703703703703703,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 102,
+      "total_entities": 810
+    },
+    "cardinality:singleton": {
+      "macro_f05": 0.954599761051374,
+      "precision": 0.0,
+      "recall": 0.0,
+      "singleton_accuracy": 0.954599761051374,
+      "pred_singletons": 799,
+      "total_entities": 837
+    }
+  },
+  "candidate_recall": 0.9170322481336104,
+  "candidates": 898129,
+  "runtime_seconds": 269.67411708831787,
+  "target_pool": {
+    "India": 222052,
+    "US": 330746
+  },
+  "seed_holdout_targets": true,
+  "background_per_source": 200000,
+  "country_candidate_recall": {
+    "India": 0.8706091810220383,
+    "US": 0.9479640910548253
+  }
+}

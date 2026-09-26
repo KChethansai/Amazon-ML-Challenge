@@ -1,0 +1,62 @@
+{
+  "macro_f05": 0.7786111044801864,
+  "precision": 0.8552188552188552,
+  "recall": 0.7375145180023229,
+  "singleton_accuracy": 0.5283018867924528,
+  "pred_singletons": 65,
+  "total_entities": 1000,
+  "group_metrics": {
+    "country:India": {
+      "macro_f05": 0.7786111044801864,
+      "precision": 0.8552188552188552,
+      "recall": 0.7375145180023229,
+      "singleton_accuracy": 0.5283018867924528,
+      "pred_singletons": 65,
+      "total_entities": 1000
+    },
+    "cardinality:multi": {
+      "macro_f05": 0.8064599631367885,
+      "precision": 0.8712147580925862,
+      "recall": 0.7381303450309643,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 28,
+      "total_entities": 894
+    },
+    "script:latin": {
+      "macro_f05": 0.7786111044801864,
+      "precision": 0.8552188552188552,
+      "recall": 0.7375145180023229,
+      "singleton_accuracy": 0.5283018867924528,
+      "pred_singletons": 65,
+      "total_entities": 1000
+    },
+    "cardinality:one": {
+      "macro_f05": 0.5591678761490083,
+      "precision": 0.5606060606060606,
+      "recall": 0.6981132075471698,
+      "singleton_accuracy": 0.0,
+      "pred_singletons": 9,
+      "total_entities": 53
+    },
+    "cardinality:singleton": {
+      "macro_f05": 0.5283018867924528,
+      "precision": 0.0,
+      "recall": 0.0,
+      "singleton_accuracy": 0.5283018867924528,
+      "pred_singletons": 28,
+      "total_entities": 53
+    }
+  },
+  "candidate_recall": 0.7845528455284553,
+  "candidates": 60000,
+  "runtime_seconds": 431.4491620063782,
+  "target_pool": {
+    "India": 4133346
+  },
+  "seed_holdout_targets": false,
+  "graph_expand": false,
+  "background_per_source": 10000000,
+  "country_candidate_recall": {
+    "India": 0.7845528455284553
+  }
+}

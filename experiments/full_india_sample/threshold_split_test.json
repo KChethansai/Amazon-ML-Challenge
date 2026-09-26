@@ -1,0 +1,48 @@
+{
+  "calibration_baseline": {
+    "macro_f05": 0.8004097089009449,
+    "precision": 0.8618463524854745,
+    "recall": 0.7615516257843696,
+    "entities": 512
+  },
+  "evaluation_baseline": {
+    "macro_f05": 0.7557404375469317,
+    "precision": 0.8479943701618579,
+    "recall": 0.7125960969840331,
+    "entities": 488
+  },
+  "best_calibration": {
+    "thresholds": [
+      0.7,
+      0.999,
+      0.05
+    ],
+    "macro_f05": 0.6242536262145233,
+    "precision": 0.9943019943019943,
+    "recall": 0.3981745579007416,
+    "entities": 512
+  },
+  "best_unconstrained": {
+    "thresholds": [
+      0.7,
+      0.95,
+      0.05
+    ],
+    "macro_f05": 0.8399121782961223,
+    "precision": 0.9388516032811335,
+    "recall": 0.7181973759269823,
+    "entities": 512
+  },
+  "evaluation_frozen_thresholds": {
+    "macro_f05": 0.6116081670201482,
+    "precision": 0.990990990990991,
+    "recall": 0.39030159668835007,
+    "entities": 488
+  },
+  "evaluation_unconstrained": {
+    "macro_f05": 0.7954371525190039,
+    "precision": 0.9288025889967637,
+    "recall": 0.6788882318154937,
+    "entities": 488
+  }
+}

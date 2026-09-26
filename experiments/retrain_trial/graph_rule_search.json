@@ -1,0 +1,230 @@
+{
+  "baseline": {
+    "macro_f05": 0.948783900568616,
+    "precision": 0.9922556719022687,
+    "recall": 0.8750901832523688,
+    "singleton_accuracy": 0.9648093841642229,
+    "pred_singletons": 395,
+    "total_entities": 6000
+  },
+  "best": {
+    "rule": {
+      "score_min": 0.999,
+      "bridge_min_name_address": 80,
+      "macro_f05": 0.9528995027361492,
+      "precision": 0.9920541178997101,
+      "recall": 0.8887499398778318,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    "macro_f05": 0.9528995027361492,
+    "precision": 0.9920541178997101,
+    "recall": 0.8887499398778318,
+    "singleton_accuracy": 0.9648093841642229,
+    "pred_singletons": 395,
+    "total_entities": 6000
+  },
+  "trials": [
+    {
+      "score_min": 0.99,
+      "bridge_min_name_address": 70,
+      "macro_f05": 0.9487615396045491,
+      "precision": 0.9817893065113816,
+      "recall": 0.8920205858304074,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99,
+      "bridge_min_name_address": 80,
+      "macro_f05": 0.9521036933466089,
+      "precision": 0.9905200578437149,
+      "recall": 0.889519503631379,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99,
+      "bridge_min_name_address": 90,
+      "macro_f05": 0.9515663028241449,
+      "precision": 0.9923338552070399,
+      "recall": 0.8840844596219518,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99,
+      "bridge_min_name_address": 95,
+      "macro_f05": 0.9506079091898061,
+      "precision": 0.9923076923076923,
+      "recall": 0.8810543023423597,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99,
+      "bridge_min_name_address": 98,
+      "macro_f05": 0.9502047516402025,
+      "precision": 0.9922964248901427,
+      "recall": 0.8797556635082487,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.999,
+      "bridge_min_name_address": 70,
+      "macro_f05": 0.9527557222331273,
+      "precision": 0.9907442084425659,
+      "recall": 0.8906738492616998,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.999,
+      "bridge_min_name_address": 80,
+      "macro_f05": 0.9528995027361492,
+      "precision": 0.9920541178997101,
+      "recall": 0.8887499398778318,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.999,
+      "bridge_min_name_address": 90,
+      "macro_f05": 0.9514822457653487,
+      "precision": 0.9923305428031326,
+      "recall": 0.8836996777451782,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.999,
+      "bridge_min_name_address": 95,
+      "macro_f05": 0.950542205305613,
+      "precision": 0.992305191286442,
+      "recall": 0.8807657159347795,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.999,
+      "bridge_min_name_address": 98,
+      "macro_f05": 0.9501390477560094,
+      "precision": 0.9922939165355186,
+      "recall": 0.8794670771006685,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.9999,
+      "bridge_min_name_address": 70,
+      "macro_f05": 0.951016803805334,
+      "precision": 0.9922577152138603,
+      "recall": 0.88148718195373,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.9999,
+      "bridge_min_name_address": 80,
+      "macro_f05": 0.9508674501348111,
+      "precision": 0.992306442000325,
+      "recall": 0.8809100091385695,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.9999,
+      "bridge_min_name_address": 90,
+      "macro_f05": 0.9503411886103879,
+      "precision": 0.992294334708053,
+      "recall": 0.8795151748352653,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.9999,
+      "bridge_min_name_address": 95,
+      "macro_f05": 0.9498192550729972,
+      "precision": 0.9922817697575823,
+      "recall": 0.8780722427973643,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.9999,
+      "bridge_min_name_address": 98,
+      "macro_f05": 0.9495770013465366,
+      "precision": 0.9922763122110416,
+      "recall": 0.8774469722476071,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99999,
+      "bridge_min_name_address": 70,
+      "macro_f05": 0.9490087859300421,
+      "precision": 0.9922611586462478,
+      "recall": 0.8757154538021259,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99999,
+      "bridge_min_name_address": 80,
+      "macro_f05": 0.9489936344148906,
+      "precision": 0.9922607368650534,
+      "recall": 0.8756673560675292,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99999,
+      "bridge_min_name_address": 90,
+      "macro_f05": 0.9489747807195663,
+      "precision": 0.9922603150378808,
+      "recall": 0.8756192583329325,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99999,
+      "bridge_min_name_address": 95,
+      "macro_f05": 0.9489747807195663,
+      "precision": 0.9922603150378808,
+      "recall": 0.8756192583329325,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    },
+    {
+      "score_min": 0.99999,
+      "bridge_min_name_address": 98,
+      "macro_f05": 0.9489668442116299,
+      "precision": 0.9922598931647225,
+      "recall": 0.8755711605983358,
+      "singleton_accuracy": 0.9648093841642229,
+      "pred_singletons": 395,
+      "total_entities": 6000
+    }
+  ]
+}

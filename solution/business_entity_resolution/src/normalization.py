@@ -102,27 +102,33 @@ COMMON_ADDR_STOPWORDS = {
 
 def extract_address_blocking_keys(addr: str, norm_addr: str):
     """Extract compound (street_num, postal) and (street_num, locality) keys for high-precision blocking."""
-    if not addr:
+    if not addr and not norm_addr:
         return []
-    nums = NUM_ONLY_RE.findall(addr)
+    nums = NUM_ONLY_RE.findall(addr or norm_addr)
     tokens = [t for t in norm_addr.split() if len(t) >= 4 and t not in COMMON_ADDR_STOPWORDS]
     keys = []
     
-    postals = [n for n in nums if len(n) in (5, 6)]
+    postals = [n for n in nums if len(n) in (4, 5, 6)]
     street_nums = [n for n in nums if 1 <= len(n) <= 5]
     
     # 1. Compound (street_num, postal_code)
-    for snum in street_nums[:2]:
+    for snum in street_nums[:3]:
         for p in postals[:2]:
             keys.append(("ST_POST", snum, p))
             
     # 2. Compound (street_num, locality) - first 2 tokens and last 2 tokens (city/state)
     locality_candidates = tokens[:2] + tokens[-2:] if len(tokens) > 3 else tokens
-    for snum in street_nums[:2]:
+    for snum in street_nums[:3]:
         for tok in set(locality_candidates):
             keys.append(("ST_LOC", snum, tok))
             
-    # 3. Individual postal code for sparse queries
+    # 3. Pair of distinct locality/street tokens for address without street numbers
+    if len(tokens) >= 2:
+        keys.append(("LOC_PAIR", tokens[0], tokens[-1]))
+        if len(tokens) >= 3:
+            keys.append(("LOC_PAIR", tokens[0], tokens[1]))
+            
+    # 4. Individual postal code for sparse queries
     for p in postals[:1]:
         keys.append(("POSTAL", p))
         

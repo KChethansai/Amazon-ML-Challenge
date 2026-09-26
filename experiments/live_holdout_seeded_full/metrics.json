@@ -1,0 +1,21 @@
+{
+  "macro_f05": 0.9420544908655107,
+  "precision": 0.9920694530352567,
+  "recall": 0.8640998999461248,
+  "singleton_accuracy": 0.9713261648745519,
+  "pred_singletons": 1056,
+  "total_entities": 14998,
+  "candidate_recall": 0.9171284537828062,
+  "candidates": 898129,
+  "runtime_seconds": 237.99446439743042,
+  "target_pool": {
+    "India": 222052,
+    "US": 330746
+  },
+  "seed_holdout_targets": true,
+  "background_per_source": 200000,
+  "country_candidate_recall": {
+    "India": 0.8706572995861803,
+    "US": 0.9480923372875921
+  }
+}
