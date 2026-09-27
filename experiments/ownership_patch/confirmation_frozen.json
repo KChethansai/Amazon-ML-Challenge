@@ -1,0 +1,44 @@
+{
+  "sample": "natural_confirmation_300",
+  "thresholds": {
+    "tau_singleton": 0.8,
+    "tau_min": 0.4,
+    "delta_margin": 0.1
+  },
+  "winning_probability": 0.95,
+  "conflict_margin": 0.05,
+  "baseline": {
+    "macro_f05": 0.8581755821630005,
+    "precision": 0.879277566539924,
+    "recall": 0.9104330708661418,
+    "singleton_accuracy": 0.35294117647058826,
+    "pred_singletons": 7,
+    "total_entities": 300
+  },
+  "frozen": {
+    "macro_f05": 0.8942371131116181,
+    "precision": 0.9185336048879837,
+    "recall": 0.8877952755905512,
+    "singleton_accuracy": 0.7058823529411765,
+    "pred_singletons": 15,
+    "total_entities": 300
+  },
+  "baseline_false_positives": {
+    "singleton_fp": 13,
+    "multi_entity_fp": 114
+  },
+  "frozen_false_positives": {
+    "singleton_fp": 6,
+    "multi_entity_fp": 74
+  },
+  "candidate_oracle_f05": 0.9938488639496703,
+  "candidate_pair_recall": 0.9744094488188977,
+  "accepted_targets_baseline": 1052,
+  "accepted_targets_frozen": 982,
+  "conflicted_targets_before": 0,
+  "conflicted_targets_after": 0,
+  "reasons": {
+    "accepted": 982,
+    "probability": 70
+  }
+}

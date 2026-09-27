@@ -1,0 +1,48 @@
+{
+  "sample": "natural_confirmation",
+  "limit": 300,
+  "scope": "ownership competition among sampled S1 only",
+  "model_dir": "solution/business_entity_resolution/models",
+  "index_path": "experiments/final_scratch/india_train.sqlite",
+  "thresholds": {
+    "tau_singleton": 0.8,
+    "tau_min": 0.4,
+    "delta_margin": 0.1
+  },
+  "minimum_owner_margin": 0.0,
+  "baseline": {
+    "macro_f05": 0.8581755821630005,
+    "precision": 0.879277566539924,
+    "recall": 0.9104330708661418,
+    "singleton_accuracy": 0.35294117647058826,
+    "pred_singletons": 7,
+    "total_entities": 300
+  },
+  "baseline_false_positives": {
+    "singleton_false_positive_links": 13,
+    "multi_entity_false_positive_links": 114
+  },
+  "ownership": {
+    "macro_f05": 0.8581755821630005,
+    "precision": 0.879277566539924,
+    "recall": 0.9104330708661418,
+    "singleton_accuracy": 0.35294117647058826,
+    "pred_singletons": 7,
+    "total_entities": 300
+  },
+  "ownership_false_positives": {
+    "singleton_false_positive_links": 13,
+    "multi_entity_false_positive_links": 114
+  },
+  "candidate_oracle_f05": 0.9938488639496703,
+  "candidate_pair_recall": 0.9744094488188977,
+  "conflicts": {
+    "targets_with_multiple_sampled_candidates": 872,
+    "targets_with_multiple_baseline_owners": 0,
+    "rejected_because_best_owner_did_not_accept": 0,
+    "rejected_for_margin": 0
+  },
+  "index_build_seconds": 0.0,
+  "runtime_seconds": 693.673,
+  "peak_rss_bytes": 218628096
+}

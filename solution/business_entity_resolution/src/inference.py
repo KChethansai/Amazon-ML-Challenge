@@ -58,13 +58,18 @@ _DEF_TEST, _DEF_MODELS, _DEF_OUTPUT = _resolve_default_paths()
 def run_inference(
     test_dir: str = _DEF_TEST,
     models_dir: str = _DEF_MODELS,
-    output_dir: str = _DEF_OUTPUT
+    output_dir: str = _DEF_OUTPUT,
+    score_output: str | None = None,
 ):
     print("=" * 70)
     print(" Amazon ML Challenge 2026: Fast Partitioned Test Inference Pipeline")
     print("=" * 70)
     
     os.makedirs(output_dir, exist_ok=True)
+    if score_output and os.path.exists(os.path.join(output_dir, "matching_results.tsv")):
+        raise FileExistsError("Score export requires a fresh output directory to protect existing results")
+    if score_output and os.path.abspath(score_output) == os.path.abspath(os.path.join(output_dir, "matching_results.tsv")):
+        raise ValueError("Score output must differ from matching_results.tsv")
     temp_dir = os.path.join(output_dir, "_temp")
     os.makedirs(temp_dir, exist_ok=True)
     
@@ -85,6 +90,8 @@ def run_inference(
     adaptive = config.get("adaptive", True)
     use_extra = config.get("use_extra", len(config.get("feature_names", ())) > len(FEATURE_NAMES))
     use_graph = config.get("use_graph", False)
+    if score_output and use_graph:
+        raise ValueError("Score export requires use_graph=false")
     graph_score_min = config.get("graph_score_min", 0.999)
     graph_bridge_min = config.get("graph_bridge_min", 80)
     N_WORKERS = 1
@@ -94,6 +101,13 @@ def run_inference(
     configured_names = config.get("feature_names", [])
     if model_features != len(expected_names) or configured_names != expected_names:
         raise ValueError("Model/config/runtime feature ordering mismatch")
+    score_file = None
+    score_partial = None
+    if score_output:
+        os.makedirs(os.path.dirname(os.path.abspath(score_output)), exist_ok=True)
+        score_partial = score_output + ".partial"
+        score_file = open(score_partial, "w", encoding="utf-8")
+        score_file.write("target_id\tcandidate_s1_id\tmodel_probability\tretrieval_score\tcandidate_rank\n")
     print(f"Model Path: {model_path}")
     print(f"Calibration Parameters: tau_singleton={tau_singleton:.2f}, tau_min={tau_min:.2f}, delta_margin={delta_margin:.2f}, max_candidates={max_candidates}")
     
@@ -199,7 +213,7 @@ def run_inference(
                 return
             probs = model.predict(np.array(b_feats, dtype=np.float32))
             offset = 0
-            for b_eid, b_cand_str, b_cands, b_s1rec, n_f in b_recs:
+            for b_eid, b_cand_str, b_cands, b_weights, b_s1rec, n_f in b_recs:
                 b_probs = probs[offset:offset+n_f]
                 offset += n_f
                 max_p = float(np.max(b_probs))
@@ -217,6 +231,11 @@ def run_inference(
                             matches = matches + [c for c in bridged if c not in matches]
                             b_cand_str = b_cand_str + "," + ",".join(c for c in bridged if c not in b_cand_str.split(","))
                     match_str = ",".join(matches)
+                if score_file and match_str:
+                    accepted = set(match_str.split(","))
+                    for rank, (cid, weight, probability) in enumerate(zip(b_cands, b_weights, b_probs), 1):
+                        if cid in accepted:
+                            score_file.write(f"{cid}\t{b_eid}\t{float(probability):.17g}\t{weight:.17g}\t{rank}\n")
                 out_file.write(f"{b_eid}\t{b_cand_str}\t{match_str}\n")
                 count_w += 1
             b_recs.clear()
@@ -262,7 +281,9 @@ def run_inference(
                         feat_rows = [b + e for b, e in zip(feat_rows, extra_rows)]
 
                     if feat_rows:
-                        batch_records.append((eid, cand_str, valid_cands, s1_rec, len(feat_rows)))
+                        weights = {cid: float(weight) for cid, weight in cand_items}
+                        batch_records.append((eid, cand_str, valid_cands,
+                                              [weights[cid] for cid in valid_cands], s1_rec, len(feat_rows)))
                         batch_features.extend(feat_rows)
                     else:
                         out_f.write(f"{eid}\t{cand_str}\t\n")
@@ -349,6 +370,9 @@ def run_inference(
     result_db.close()
     os.replace(cand_partial, cand_path)
     os.replace(match_partial, match_path)
+    if score_file:
+        score_file.close()
+        os.replace(score_partial, score_output)
                 
     # Clean up temp directory
     for country in country_counts:
@@ -379,10 +403,12 @@ if __name__ == "__main__":
     parser.add_argument("--test-dir", default=_DEF_TEST, help=f"Path to test dataset directory (default: {_DEF_TEST})")
     parser.add_argument("--models-dir", default=_DEF_MODELS, help=f"Path to trained models directory (default: {_DEF_MODELS})")
     parser.add_argument("--output-dir", default=_DEF_OUTPUT, help=f"Path to output directory (default: {_DEF_OUTPUT})")
+    parser.add_argument("--score-output", help="Write accepted pair model probabilities to this TSV")
     args = parser.parse_args()
     
     run_inference(
         test_dir=args.test_dir,
         models_dir=args.models_dir,
-        output_dir=args.output_dir
+        output_dir=args.output_dir,
+        score_output=args.score_output,
     )

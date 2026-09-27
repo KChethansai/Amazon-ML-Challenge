@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Evaluate target ownership on the natural India development sample only.
+"""Cache pair scores on natural India development or confirmation samples.
 
-Ownership is evaluated among the sampled S1 records. The full production
-catalog can have additional competitors, so this is a development diagnostic.
+The legacy ``ownership`` diagnostic below considers all scored candidates.
+For the production resolver, evaluate ``select_owner`` on baseline-accepted
+pairs from the score cache. Sampled S1s can miss full-catalog competitors.
 """
 
 import argparse
@@ -69,9 +70,9 @@ def false_positive_breakdown(truth, predicted):
             "multi_entity_false_positive_links": multi_entity_fp}
 
 
-def evaluate(limit, index_path, model_dir, minimum_margin, score_cache=None):
+def evaluate(limit, index_path, model_dir, minimum_margin, score_cache=None, sample="development"):
     start = time.monotonic()
-    selected = split_sample("development")[:limit]
+    selected = split_sample(sample)[:limit]
     truth = load_truth(sid for sid, _ in selected)
     index, build_seconds = ensure_index(index_path)
     try:
@@ -101,13 +102,13 @@ def evaluate(limit, index_path, model_dir, minimum_margin, score_cache=None):
         if score_cache is not None:
             score_cache.parent.mkdir(parents=True, exist_ok=True)
             with gzip.open(score_cache, "wt", encoding="utf-8") as file:
-                json.dump({"sample": "natural_development", "s1_ids": [sid for sid, _ in selected],
+                json.dump({"sample": f"natural_{sample}", "s1_ids": [sid for sid, _ in selected],
                            "truth": {sid: sorted(values) for sid, values in truth.items()},
                            "scored": scored, "baseline": {sid: sorted(values) for sid, values in baseline.items()},
                            "oracle": {sid: sorted(values) for sid, values in oracle.items()},
                            "thresholds": {key: config[key] for key in ("tau_singleton", "tau_min", "delta_margin")}}, file)
         return {
-            "sample": "natural_development",
+            "sample": f"natural_{sample}",
             "limit": len(selected),
             "scope": "ownership competition among sampled S1 only",
             "model_dir": str(model_dir),
@@ -162,6 +163,7 @@ def replay(score_cache, config_path, minimum_margin=0.0):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--limit", type=int, default=200)
+    parser.add_argument("--sample", choices=("development", "confirmation"), default="development")
     parser.add_argument("--index-path", type=Path, default=INDEX_PATH)
     parser.add_argument("--model-dir", type=Path, default=MODEL_DIR)
     parser.add_argument("--minimum-margin", type=float, default=0.0)
@@ -175,7 +177,7 @@ def main():
     if args.replay_config:
         result = replay(args.score_cache, args.replay_config, args.minimum_margin)
     else:
-        result = evaluate(args.limit, args.index_path, args.model_dir, args.minimum_margin, args.score_cache)
+        result = evaluate(args.limit, args.index_path, args.model_dir, args.minimum_margin, args.score_cache, args.sample)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))

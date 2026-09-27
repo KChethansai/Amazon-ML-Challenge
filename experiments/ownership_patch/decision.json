@@ -1,0 +1,100 @@
+{
+  "decision": "do_not_promote_final_test_output_without_full_test_model_probabilities",
+  "reason": "No full-test pair probability cache exists; 300 natural S1 required 693.673 s, implying 46.4 days for 1,732,544 S1 if throughput scales. Original submission remains protected. The 300-S1 confirmation has zero accepted cross-S1 conflicts, so the conflict margin remains unvalidated.",
+  "selected_rule": {
+    "winning_probability": 0.95,
+    "conflict_margin": 0.05
+  },
+  "development": {
+    "baseline": {
+      "macro_f05": 0.858775704084048,
+      "precision": 0.8762306610407876,
+      "recall": 0.89,
+      "singleton_accuracy": 0.42857142857142855,
+      "pred_singletons": 3,
+      "total_entities": 200
+    },
+    "frozen": {
+      "winning_probability": 0.95,
+      "conflict_margin": 0.05,
+      "macro_f05": 0.8688077442485376,
+      "precision": 0.9085457271364318,
+      "recall": 0.8657142857142858,
+      "singleton_accuracy": 0.5714285714285714,
+      "pred_singletons": 6,
+      "total_entities": 200,
+      "accepted_targets": 667,
+      "conflicted_targets_before": 0,
+      "conflicted_targets_after": 0,
+      "rejected_probability": 44,
+      "rejected_margin": 0
+    }
+  },
+  "confirmation": {
+    "sample": "natural_confirmation_300",
+    "thresholds": {
+      "tau_singleton": 0.8,
+      "tau_min": 0.4,
+      "delta_margin": 0.1
+    },
+    "winning_probability": 0.95,
+    "conflict_margin": 0.05,
+    "baseline": {
+      "macro_f05": 0.8581755821630005,
+      "precision": 0.879277566539924,
+      "recall": 0.9104330708661418,
+      "singleton_accuracy": 0.35294117647058826,
+      "pred_singletons": 7,
+      "total_entities": 300
+    },
+    "frozen": {
+      "macro_f05": 0.8942371131116181,
+      "precision": 0.9185336048879837,
+      "recall": 0.8877952755905512,
+      "singleton_accuracy": 0.7058823529411765,
+      "pred_singletons": 15,
+      "total_entities": 300
+    },
+    "baseline_false_positives": {
+      "singleton_fp": 13,
+      "multi_entity_fp": 114
+    },
+    "frozen_false_positives": {
+      "singleton_fp": 6,
+      "multi_entity_fp": 74
+    },
+    "candidate_oracle_f05": 0.9938488639496703,
+    "candidate_pair_recall": 0.9744094488188977,
+    "accepted_targets_baseline": 1052,
+    "accepted_targets_frozen": 982,
+    "conflicted_targets_before": 0,
+    "conflicted_targets_after": 0,
+    "reasons": {
+      "accepted": 982,
+      "probability": 70
+    }
+  },
+  "confirmation_runtime_seconds": 693.673,
+  "confirmation_peak_rss_bytes": 218628096,
+  "protected_sha256": {
+    "model": "2c471869f1b1069932715c9f500d5dd8248044036625503103a8b14a63103441",
+    "config": "562efc454103c5918e6c5b2d490fc99e1fd334a991072e8fe0df86c0890f38d7",
+    "matching_results": "7047bb4b00f8833475b4bf7e958e91f1a9b624f60f63a1420063f9ce68d55c78"
+  },
+  "commands": {
+    "confirmation": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python experiments/codex_0991/eval_ownership.py --sample confirmation --limit 300 --model-dir solution/business_entity_resolution/models --output experiments/ownership_patch/confirmation_raw.json --score-cache experiments/ownership_patch/confirmation_scores.json.gz",
+    "future_full_score_export": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python solution/business_entity_resolution/src/inference.py --output-dir output/ownership_stage --score-output output/ownership_stage/accepted_scores.tsv",
+    "future_resolve": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/resolve_target_ownership.py --matching output/ownership_stage/matching_results.tsv --scores output/ownership_stage/accepted_scores.tsv --output output/ownership_stage/matching_results_owned.tsv --winning-probability 0.95 --conflict-margin 0.05"
+  },
+  "protected_output_validation": {
+    "fast_validator": "PASS formatting, ordered coverage, ID and candidate subset checks",
+    "s1_rows": 1732544,
+    "assignments": 6380017,
+    "empty_s1_rows": 89369,
+    "candidate_pairs": 103897911,
+    "validator_runtime_seconds": 582.87,
+    "validator_peak_rss_mb": 37.2,
+    "global_target_duplicate_count": 775099,
+    "ownership_invariant": "FAIL"
+  }
+}

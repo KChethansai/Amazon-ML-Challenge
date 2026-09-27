@@ -3,6 +3,7 @@
 import sys
 import tempfile
 import unittest
+import csv
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
@@ -26,7 +27,8 @@ class DiskInferenceTests(unittest.TestCase):
                 "S2-2\tCafe Bon\t1 Rue 75001\tFrance\n", encoding="utf-8")
             (data / "test_source3.tsv").write_text(header, encoding="utf-8")
             models = Path(__file__).parents[1] / "models"
-            run_inference(str(data), str(models), str(output))
+            scores_path = root / "accepted_scores.tsv"
+            run_inference(str(data), str(models), str(output), str(scores_path))
             candidates = (output / "candidate_pairs.tsv").read_text(encoding="utf-8").splitlines()[1:]
             matches = (output / "matching_results.tsv").read_text(encoding="utf-8").splitlines()[1:]
             self.assertEqual([row.partition("\t")[0] for row in candidates], ["S1-1", "S1-2", "S1-3"])
@@ -37,6 +39,14 @@ class DiskInferenceTests(unittest.TestCase):
                 candidate_ids = set(candidate_row.partition("\t")[2].split(",")) - {""}
                 match_ids = set(match_row.partition("\t")[2].split(",")) - {""}
                 self.assertTrue(match_ids <= candidate_ids)
+            with scores_path.open(newline="", encoding="utf-8") as file:
+                scored = list(csv.DictReader(file, delimiter="\t"))
+            accepted = {(row.partition("\t")[0], target)
+                        for row in matches for target in row.partition("\t")[2].split(",") if target}
+            self.assertEqual({(row["candidate_s1_id"], row["target_id"]) for row in scored}, accepted)
+            self.assertTrue(all(0 <= float(row["model_probability"]) <= 1 for row in scored))
+            self.assertTrue(all(int(row["candidate_rank"]) >= 1 for row in scored))
+            self.assertTrue(all(float(row["retrieval_score"]) >= 0 for row in scored))
 
 
 if __name__ == "__main__":
