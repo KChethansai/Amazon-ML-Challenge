@@ -1,42 +1,16 @@
 {
   "communities": {
     "0": [
-      "solution_business_entity_resolution_src_features",
-      "solution_business_entity_resolution_src_features_char_ngrams",
-      "solution_business_entity_resolution_src_features_compute_candidate_features_for_s1",
-      "solution_business_entity_resolution_src_features_compute_pairwise_features",
-      "solution_business_entity_resolution_src_features_get_acronym",
-      "solution_business_entity_resolution_src_features_jaccard_similarity",
-      "solution_business_entity_resolution_src_features_rationale_13",
-      "solution_business_entity_resolution_src_features_rationale_19",
-      "solution_business_entity_resolution_src_features_rationale_229",
-      "solution_business_entity_resolution_src_features_rationale_29",
-      "solution_business_entity_resolution_src_features_rationale_40",
-      "solution_business_entity_resolution_src_inference",
-      "solution_business_entity_resolution_src_inference_resolve_default_paths",
-      "solution_business_entity_resolution_src_inference_run_inference",
-      "solution_business_entity_resolution_src_normalization",
-      "solution_business_entity_resolution_src_normalization_clean_unicode_to_ascii",
-      "solution_business_entity_resolution_src_normalization_extract_address_blocking_keys",
-      "solution_business_entity_resolution_src_normalization_extract_address_digits",
-      "solution_business_entity_resolution_src_normalization_extract_name_tokens",
-      "solution_business_entity_resolution_src_normalization_normalize_address",
-      "solution_business_entity_resolution_src_normalization_normalize_name",
-      "solution_business_entity_resolution_src_normalization_rationale_104",
-      "solution_business_entity_resolution_src_normalization_rationale_42",
-      "solution_business_entity_resolution_src_normalization_rationale_52",
-      "solution_business_entity_resolution_src_normalization_rationale_68",
-      "solution_business_entity_resolution_src_normalization_rationale_80",
-      "solution_business_entity_resolution_src_normalization_rationale_90",
-      "solution_business_entity_resolution_src_train",
-      "solution_business_entity_resolution_src_train_calculate_macro_f05",
-      "solution_business_entity_resolution_src_train_evaluate_metrics",
-      "solution_business_entity_resolution_src_train_rationale_20",
-      "solution_business_entity_resolution_src_train_rationale_60",
-      "solution_business_entity_resolution_src_train_resolve_default_train_paths",
-      "solution_business_entity_resolution_src_train_train_pipeline"
-    ],
-    "1": [
+      "experiments_baseline_code_blocking",
+      "experiments_baseline_code_blocking_countryblockingindex",
+      "experiments_baseline_code_blocking_countryblockingindex_add_target_record",
+      "experiments_baseline_code_blocking_countryblockingindex_init",
+      "experiments_baseline_code_blocking_countryblockingindex_prune_frequent_keys",
+      "experiments_baseline_code_blocking_countryblockingindex_query_candidates",
+      "experiments_baseline_code_blocking_rationale_25",
+      "experiments_baseline_code_blocking_rationale_44",
+      "experiments_baseline_code_blocking_rationale_58",
+      "experiments_baseline_code_blocking_rationale_9",
       "experiments_baseline_code_features",
       "experiments_baseline_code_features_char_ngrams",
       "experiments_baseline_code_features_compute_pairwise_features",
@@ -67,10 +41,148 @@
       "experiments_baseline_code_train_train_pipeline",
       "experiments_eval_holdout_main",
       "experiments_exp_001_blocking_test_blocking_improvements_main",
-      "experiments_exp_002_model_train_eval_experiment_main",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_add_target",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_init",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_prune",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_query",
+      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_extract_advanced_keys",
       "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_main"
     ],
+    "1": [
+      "experiments_exp_recall",
+      "experiments_exp_recall_load_gt",
+      "experiments_exp_recall_main",
+      "solution_business_entity_resolution_src_blocking",
+      "solution_business_entity_resolution_src_blocking_assess_difficulty",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_add_target_record",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_query_candidates",
+      "solution_business_entity_resolution_src_blocking_extract_acronyms",
+      "solution_business_entity_resolution_src_blocking_extract_postal_prefixes",
+      "solution_business_entity_resolution_src_blocking_rationale_22",
+      "solution_business_entity_resolution_src_blocking_rationale_231",
+      "solution_business_entity_resolution_src_blocking_rationale_373",
+      "solution_business_entity_resolution_src_blocking_rationale_40",
+      "solution_business_entity_resolution_src_blocking_rationale_91",
+      "solution_business_entity_resolution_src_blocking_trigrams",
+      "solution_business_entity_resolution_src_features2",
+      "solution_business_entity_resolution_src_features2_extra_for_pair",
+      "solution_business_entity_resolution_src_features2_rationale_1",
+      "solution_business_entity_resolution_src_features2_tokset",
+      "solution_business_entity_resolution_src_views",
+      "solution_business_entity_resolution_src_views_address_views",
+      "solution_business_entity_resolution_src_views_ascii_fold",
+      "solution_business_entity_resolution_src_views_compact_alnum",
+      "solution_business_entity_resolution_src_views_dm_primary",
+      "solution_business_entity_resolution_src_views_extract_phones",
+      "solution_business_entity_resolution_src_views_has_indic",
+      "solution_business_entity_resolution_src_views_name_views",
+      "solution_business_entity_resolution_src_views_rationale_1",
+      "solution_business_entity_resolution_src_views_rationale_145",
+      "solution_business_entity_resolution_src_views_rationale_59",
+      "solution_business_entity_resolution_src_views_rationale_95",
+      "solution_business_entity_resolution_src_views_scheme_for_char",
+      "solution_business_entity_resolution_src_views_soundex",
+      "solution_business_entity_resolution_src_views_transliterate_text",
+      "solution_business_entity_resolution_src_views_transliterate_token",
+      "solution_business_entity_resolution_tests_test_pipeline",
+      "solution_business_entity_resolution_tests_test_pipeline_test_blocking_provenance_and_adaptive",
+      "solution_business_entity_resolution_tests_test_pipeline_test_compact",
+      "solution_business_entity_resolution_tests_test_pipeline_test_dm",
+      "solution_business_entity_resolution_tests_test_pipeline_test_extra_dims",
+      "solution_business_entity_resolution_tests_test_pipeline_test_indic_translit",
+      "solution_business_entity_resolution_tests_test_pipeline_test_phones",
+      "solution_business_entity_resolution_tests_test_pipeline_test_soundex",
+      "solution_business_entity_resolution_tests_test_pipeline_test_trigrams"
+    ],
     "2": [
+      "experiments_baseline_lock",
+      "experiments_baseline_lock_main",
+      "experiments_baseline_lock_selftest_metric",
+      "experiments_build_matrix",
+      "experiments_build_matrix_build_index",
+      "experiments_build_matrix_featurize_ids",
+      "experiments_build_matrix_load_all",
+      "experiments_build_matrix_load_s1",
+      "experiments_build_matrix_main",
+      "experiments_eval_natural",
+      "experiments_eval_natural_main",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_add",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_init",
+      "solution_business_entity_resolution_src_blocking_countryblockingindex_prune_frequent_keys",
+      "solution_business_entity_resolution_src_blocking_rationale_168",
+      "solution_business_entity_resolution_src_blocking_rationale_52",
+      "solution_business_entity_resolution_src_features2_extra_batch_for_s1",
+      "solution_business_entity_resolution_src_features2_rationale_130",
+      "solution_business_entity_resolution_src_graph",
+      "solution_business_entity_resolution_src_graph_apply_graph_bridge",
+      "solution_business_entity_resolution_src_graph_bridge_support",
+      "solution_business_entity_resolution_src_graph_rationale_1",
+      "solution_business_entity_resolution_src_graph_rationale_21",
+      "solution_business_entity_resolution_src_inference",
+      "solution_business_entity_resolution_src_inference_resolve_default_paths",
+      "solution_business_entity_resolution_src_inference_run_inference",
+      "solution_business_entity_resolution_src_train",
+      "solution_business_entity_resolution_src_train_calculate_macro_f05",
+      "solution_business_entity_resolution_src_train_evaluate_metrics",
+      "solution_business_entity_resolution_src_train_featurize_s1",
+      "solution_business_entity_resolution_src_train_query_for_s1",
+      "solution_business_entity_resolution_src_train_rationale_22",
+      "solution_business_entity_resolution_src_train_rationale_62",
+      "solution_business_entity_resolution_src_train_resolve_default_train_paths",
+      "solution_business_entity_resolution_src_train_train_pipeline",
+      "solution_business_entity_resolution_tests_test_pipeline_test_bridge_support",
+      "solution_business_entity_resolution_tests_test_pipeline_test_metric"
+    ],
+    "3": [
+      "solution_business_entity_resolution_src_features",
+      "solution_business_entity_resolution_src_features_char_ngrams",
+      "solution_business_entity_resolution_src_features_compute_candidate_features_for_s1",
+      "solution_business_entity_resolution_src_features_compute_pairwise_features",
+      "solution_business_entity_resolution_src_features_get_acronym",
+      "solution_business_entity_resolution_src_features_jaccard_similarity",
+      "solution_business_entity_resolution_src_features_rationale_13",
+      "solution_business_entity_resolution_src_features_rationale_19",
+      "solution_business_entity_resolution_src_features_rationale_229",
+      "solution_business_entity_resolution_src_features_rationale_29",
+      "solution_business_entity_resolution_src_features_rationale_40",
+      "solution_business_entity_resolution_src_normalization",
+      "solution_business_entity_resolution_src_normalization_clean_unicode_to_ascii",
+      "solution_business_entity_resolution_src_normalization_extract_address_blocking_keys",
+      "solution_business_entity_resolution_src_normalization_extract_address_digits",
+      "solution_business_entity_resolution_src_normalization_extract_name_tokens",
+      "solution_business_entity_resolution_src_normalization_normalize_address",
+      "solution_business_entity_resolution_src_normalization_normalize_name",
+      "solution_business_entity_resolution_src_normalization_rationale_104",
+      "solution_business_entity_resolution_src_normalization_rationale_42",
+      "solution_business_entity_resolution_src_normalization_rationale_52",
+      "solution_business_entity_resolution_src_normalization_rationale_68",
+      "solution_business_entity_resolution_src_normalization_rationale_80",
+      "solution_business_entity_resolution_src_normalization_rationale_90"
+    ],
+    "4": [
+      "experiments_analyze_graph_recovery",
+      "experiments_analyze_graph_recovery_main",
+      "experiments_analyze_misses",
+      "experiments_analyze_misses_channels",
+      "experiments_analyze_misses_main",
+      "experiments_evaluate_graph_rules",
+      "experiments_evaluate_graph_rules_main",
+      "experiments_evaluate_live",
+      "experiments_evaluate_live_main",
+      "experiments_evaluate_live_record",
+      "experiments_evaluate_live_rows",
+      "experiments_summarize_scores",
+      "experiments_summarize_scores_main",
+      "experiments_tune_decision",
+      "experiments_tune_decision_main",
+      "experiments_tune_natural_sample",
+      "experiments_tune_natural_sample_main",
+      "experiments_tune_natural_sample_metrics"
+    ],
+    "5": [
       "scripts_validate_submission_fast",
       "scripts_validate_submission_fast_examples",
       "scripts_validate_submission_fast_get_peak_memory_mb",
@@ -87,39 +199,7 @@
       "scripts_validate_submission_fast_validate_candidate_file_streaming",
       "scripts_validate_submission_fast_validate_matching_file"
     ],
-    "3": [
-      "experiments_baseline_code_blocking",
-      "experiments_baseline_code_blocking_countryblockingindex",
-      "experiments_baseline_code_blocking_countryblockingindex_add_target_record",
-      "experiments_baseline_code_blocking_countryblockingindex_init",
-      "experiments_baseline_code_blocking_countryblockingindex_prune_frequent_keys",
-      "experiments_baseline_code_blocking_countryblockingindex_query_candidates",
-      "experiments_baseline_code_blocking_rationale_25",
-      "experiments_baseline_code_blocking_rationale_44",
-      "experiments_baseline_code_blocking_rationale_58",
-      "experiments_baseline_code_blocking_rationale_9",
-      "scripts_diagnose_blocking_errors",
-      "scripts_diagnose_blocking_errors_has_indic_char",
-      "scripts_diagnose_blocking_errors_has_url_handle",
-      "scripts_diagnose_blocking_errors_main"
-    ],
-    "4": [
-      "solution_business_entity_resolution_src_blocking",
-      "solution_business_entity_resolution_src_blocking_countryblockingindex",
-      "solution_business_entity_resolution_src_blocking_countryblockingindex_add_target_record",
-      "solution_business_entity_resolution_src_blocking_countryblockingindex_init",
-      "solution_business_entity_resolution_src_blocking_countryblockingindex_prune_frequent_keys",
-      "solution_business_entity_resolution_src_blocking_countryblockingindex_query_candidates",
-      "solution_business_entity_resolution_src_blocking_extract_acronyms",
-      "solution_business_entity_resolution_src_blocking_extract_postal_prefixes",
-      "solution_business_entity_resolution_src_blocking_rationale_104",
-      "solution_business_entity_resolution_src_blocking_rationale_13",
-      "solution_business_entity_resolution_src_blocking_rationale_141",
-      "solution_business_entity_resolution_src_blocking_rationale_31",
-      "solution_business_entity_resolution_src_blocking_rationale_37",
-      "solution_business_entity_resolution_src_blocking_rationale_67"
-    ],
-    "5": [
+    "6": [
       "student_resource_utils_validate_submission",
       "student_resource_utils_validate_submission_examples",
       "student_resource_utils_validate_submission_load_match_targets",
@@ -133,7 +213,7 @@
       "student_resource_utils_validate_submission_validate",
       "student_resource_utils_validate_submission_validate_id_list_file"
     ],
-    "6": [
+    "7": [
       "experiments_exp_002_model_train_eval_experiment",
       "experiments_exp_002_model_train_eval_experiment_char_ngrams",
       "experiments_exp_002_model_train_eval_experiment_compute_expanded_features",
@@ -142,9 +222,10 @@
       "experiments_exp_002_model_train_eval_experiment_fastmultipassindex_add_target",
       "experiments_exp_002_model_train_eval_experiment_fastmultipassindex_init",
       "experiments_exp_002_model_train_eval_experiment_fastmultipassindex_query",
-      "experiments_exp_002_model_train_eval_experiment_jaccard"
+      "experiments_exp_002_model_train_eval_experiment_jaccard",
+      "experiments_exp_002_model_train_eval_experiment_main"
     ],
-    "7": [
+    "8": [
       "experiments_eval_holdout",
       "experiments_eval_holdout_cleanmultipassindex",
       "experiments_eval_holdout_cleanmultipassindex_add_target",
@@ -153,7 +234,7 @@
       "experiments_eval_holdout_cleanmultipassindex_query",
       "experiments_eval_holdout_extract_advanced_keys"
     ],
-    "8": [
+    "9": [
       "experiments_exp_001_blocking_test_blocking_improvements",
       "experiments_exp_001_blocking_test_blocking_improvements_extract_advanced_keys",
       "experiments_exp_001_blocking_test_blocking_improvements_multipassblockingindex",
@@ -162,7 +243,7 @@
       "experiments_exp_001_blocking_test_blocking_improvements_multipassblockingindex_query",
       "experiments_exp_001_blocking_test_blocking_improvements_rationale_38"
     ],
-    "9": [
+    "10": [
       "experiments_exp_001_blocking_test_blocking_improvements_v2",
       "experiments_exp_001_blocking_test_blocking_improvements_v2_extract_advanced_keys_v2",
       "experiments_exp_001_blocking_test_blocking_improvements_v2_main",
@@ -171,45 +252,52 @@
       "experiments_exp_001_blocking_test_blocking_improvements_v2_multipassblockingindexv2_init",
       "experiments_exp_001_blocking_test_blocking_improvements_v2_multipassblockingindexv2_query"
     ],
-    "10": [
-      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass",
-      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex",
-      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_add_target",
-      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_init",
-      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_prune",
-      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_cleanmultipassindex_query",
-      "experiments_exp_003_blocking_with_base_features_test_baseline_features_multipass_extract_advanced_keys"
-    ],
     "11": [
+      "scripts_diagnose_blocking_errors",
+      "scripts_diagnose_blocking_errors_has_indic_char",
+      "scripts_diagnose_blocking_errors_has_url_handle",
+      "scripts_diagnose_blocking_errors_main"
+    ],
+    "12": [
       "scripts_create_validation_split",
       "scripts_create_validation_split_get_match_bucket",
       "scripts_create_validation_split_main"
     ],
-    "12": [
+    "13": [
       "scripts_recon_exhaustive",
       "scripts_recon_exhaustive_scan_source"
+    ],
+    "14": [
+      "experiments_tune_lgbm"
     ]
   },
   "cohesion": {
-    "0": 0.12477718360071301,
-    "1": 0.14717741935483872,
-    "2": 0.23809523809523808,
-    "3": 0.16483516483516483,
-    "4": 0.18681318681318682,
-    "5": 0.2727272727272727,
-    "6": 0.3333333333333333,
-    "7": 0.38095238095238093,
+    "0": 0.08067375886524823,
+    "1": 0.09619450317124736,
+    "2": 0.09388335704125178,
+    "3": 0.11956521739130435,
+    "4": 0.26143790849673204,
+    "5": 0.23809523809523808,
+    "6": 0.2727272727272727,
+    "7": 0.3333333333333333,
     "8": 0.38095238095238093,
-    "9": 0.42857142857142855,
-    "10": 0.38095238095238093,
-    "11": 1.0,
-    "12": 1.0
+    "9": 0.38095238095238093,
+    "10": 0.42857142857142855,
+    "11": 0.8333333333333334,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0
   },
   "gods": [
     {
-      "id": "experiments_baseline_code_blocking_countryblockingindex",
+      "id": "solution_business_entity_resolution_src_blocking_countryblockingindex",
       "label": "CountryBlockingIndex",
-      "degree": 13
+      "degree": 17
+    },
+    {
+      "id": "experiments_evaluate_live_rows",
+      "label": "rows()",
+      "degree": 14
     },
     {
       "id": "experiments_baseline_code_normalization_normalize_address",
@@ -222,8 +310,18 @@
       "degree": 12
     },
     {
-      "id": "solution_business_entity_resolution_src_train_train_pipeline",
-      "label": "train_pipeline()",
+      "id": "solution_business_entity_resolution_src_features2_extra_for_pair",
+      "label": "extra_for_pair()",
+      "degree": 12
+    },
+    {
+      "id": "solution_business_entity_resolution_src_views_transliterate_text",
+      "label": "transliterate_text()",
+      "degree": 12
+    },
+    {
+      "id": "experiments_baseline_code_blocking_countryblockingindex",
+      "label": "CountryBlockingIndex",
       "degree": 11
     },
     {
@@ -232,54 +330,17 @@
       "degree": 11
     },
     {
-      "id": "solution_business_entity_resolution_src_blocking_countryblockingindex",
-      "label": "CountryBlockingIndex",
-      "degree": 10
-    },
-    {
       "id": "experiments_baseline_code_features_compute_pairwise_features",
       "label": "compute_pairwise_features()",
       "degree": 10
     },
     {
-      "id": "solution_business_entity_resolution_src_features_compute_candidate_features_for_s1",
-      "label": "compute_candidate_features_for_s1()",
-      "degree": 9
-    },
-    {
-      "id": "solution_business_entity_resolution_src_features_compute_pairwise_features",
-      "label": "compute_pairwise_features()",
-      "degree": 9
-    },
-    {
-      "id": "solution_business_entity_resolution_src_inference_run_inference",
-      "label": "run_inference()",
+      "id": "experiments_baseline_code_normalization_extract_address_digits",
+      "label": "extract_address_digits()",
       "degree": 9
     }
   ],
   "surprises": [
-    {
-      "source": "run_inference()",
-      "target": "CountryBlockingIndex",
-      "source_files": [
-        "solution/business_entity_resolution/src/inference.py",
-        "experiments/baseline/code/blocking.py"
-      ],
-      "confidence": "INFERRED",
-      "relation": "uses",
-      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
-    },
-    {
-      "source": "train_pipeline()",
-      "target": "CountryBlockingIndex",
-      "source_files": [
-        "solution/business_entity_resolution/src/train.py",
-        "experiments/baseline/code/blocking.py"
-      ],
-      "confidence": "INFERRED",
-      "relation": "uses",
-      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
-    },
     {
       "source": "main()",
       "target": "CountryBlockingIndex",
@@ -289,51 +350,73 @@
       ],
       "confidence": "INFERRED",
       "relation": "uses",
-      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
     },
     {
       "source": "main()",
-      "target": "extract_name_tokens()",
+      "target": "CountryBlockingIndex",
       "source_files": [
-        "experiments/exp_001_blocking/test_blocking_improvements_v2.py",
-        "experiments/baseline/code/normalization.py"
+        "experiments/evaluate_live.py",
+        "solution/business_entity_resolution/src/blocking.py"
       ],
       "confidence": "INFERRED",
-      "relation": "calls",
-      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
     },
     {
       "source": "main()",
-      "target": "normalize_address()",
+      "target": "CountryBlockingIndex",
       "source_files": [
-        "experiments/exp_001_blocking/test_blocking_improvements_v2.py",
-        "experiments/baseline/code/normalization.py"
+        "experiments/exp_recall.py",
+        "solution/business_entity_resolution/src/blocking.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "channels()",
+      "target": "extract_acronyms()",
+      "source_files": [
+        "experiments/analyze_misses.py",
+        "solution/business_entity_resolution/src/blocking.py"
       ],
       "confidence": "INFERRED",
       "relation": "calls",
-      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "channels()",
+      "target": "extract_postal_prefixes()",
+      "source_files": [
+        "experiments/analyze_misses.py",
+        "solution/business_entity_resolution/src/blocking.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
     }
   ],
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `CountryBlockingIndex` connect `CountryBlockingIndex` to `src/train.py`, `normalize_address`?",
-      "why": "High betweenness centrality (0.376) - this node is a cross-community bridge."
+      "question": "Why does `CountryBlockingIndex` connect `CountryBlockingIndex` to `views.py`, `rows`?",
+      "why": "High betweenness centrality (0.072) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `train_pipeline()` connect `src/train.py` to `CountryBlockingIndex`, `CountryBlockingIndex`?",
-      "why": "High betweenness centrality (0.171) - this node is a cross-community bridge."
+      "question": "Why does `main()` connect `rows` to `CountryBlockingIndex`, `src/features.py`?",
+      "why": "High betweenness centrality (0.045) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `run_inference()` connect `src/train.py` to `CountryBlockingIndex`, `CountryBlockingIndex`?",
-      "why": "High betweenness centrality (0.140) - this node is a cross-community bridge."
+      "question": "Why does `compute_candidate_features_for_s1()` connect `src/features.py` to `CountryBlockingIndex`, `rows`?",
+      "why": "High betweenness centrality (0.036) - this node is a cross-community bridge."
     },
     {
       "type": "verify_inferred",
-      "question": "Are the 3 inferred relationships involving `CountryBlockingIndex` (e.g. with `main()` and `run_inference()`) actually correct?",
-      "why": "`CountryBlockingIndex` has 3 INFERRED edges - model-reasoned connections that need verification."
+      "question": "Are the 6 inferred relationships involving `CountryBlockingIndex` (e.g. with `main()` and `build_index()`) actually correct?",
+      "why": "`CountryBlockingIndex` has 6 INFERRED edges - model-reasoned connections that need verification."
     },
     {
       "type": "verify_inferred",
@@ -346,9 +429,9 @@
       "why": "`normalize_name()` has 5 INFERRED edges - model-reasoned connections that need verification."
     },
     {
-      "type": "verify_inferred",
-      "question": "Are the 5 inferred relationships involving `extract_name_tokens()` (e.g. with `main()` and `main()`) actually correct?",
-      "why": "`extract_name_tokens()` has 5 INFERRED edges - model-reasoned connections that need verification."
+      "type": "low_cohesion",
+      "question": "Should `normalize_address` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08067375886524823 - nodes in this community are weakly interconnected."
     }
   ]
 }

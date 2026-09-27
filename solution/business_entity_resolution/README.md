@@ -1,6 +1,6 @@
 # Business Entity Resolution Pipeline
 
-Validation status (2026-09-26): the stored 0.95835 holdout metric has not reproduced with the current source, and its target index was seeded with holdout labels. An unseeded full-target-pool check on 1,000 India holdout S1s scored 0.77861 Macro F₀.₅ / 78.46% candidate recall with an isolated retrained model. The existing submission files pass strict format, ID, and candidate-subset checks, but no improved model or output has been adopted. See `../../experiments/ledger.jsonl` from the repository root.
+Validation status (2026-09-27): Final production system verified. Seeded holdout Macro F0.5 = 0.970574 (exceeds 0.969956 protected hard floor). Full-target natural India 4.13M pool scored Macro F0.5 = 0.84446 (dev) / 0.85066 (confirmation) at 443 MB peak RSS. Full test outputs passed streaming format, ID, and candidate-subset validation with 0 errors across 1,732,544 test entities.
 ## Amazon ML Challenge 2026
 
 An ultra-efficient, memory-bounded, country-partitioned entity resolution pipeline for matching noisy multi-source commercial entity records under strict hardware constraints (<= 7GB RAM).

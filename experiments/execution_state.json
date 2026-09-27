@@ -1,0 +1,45 @@
+{
+  "timestamp_utc": "2026-09-26T15:04:00.486497+00:00",
+  "phase": "natural_india_1000_scoring",
+  "source_of_truth": "solution/business_entity_resolution/src",
+  "selected_architecture": "EXP_020 structured retrieval scoring with SQLite disk-backed postings and bounded exact query accumulation",
+  "model": "experiments/final_scratch/lgbm_matcher.txt",
+  "config": "experiments/final_scratch/config.json",
+  "protected_artifacts": "experiments/upgrade_protection/manifest.json",
+  "existing_partial_index": "experiments/final_scratch/india_train.sqlite.building",
+  "partial_committed_records": 792607,
+  "completed_experiments": [
+    "EXP_020 seeded holdout F0.5 0.9725850647213466",
+    "EXP_021 natural India OOM before scoring"
+  ],
+  "rejected_experiments": [],
+  "natural_india_4133346_status": "pending resumed index build; no natural upgraded score",
+  "files_in_progress": [
+    "solution/business_entity_resolution/src/disk_blocking.py",
+    "solution/business_entity_resolution/src/normalization.py",
+    "solution/business_entity_resolution/src/train.py",
+    "experiments/eval_natural.py"
+  ],
+  "next_exact_step": "poll evaluator session 75633 through 1000/1000; inspect metrics/oracle/RSS; then build and benchmark packed mmap postings without touching protected submission",
+  "submission_state": "old output and archive protected; no new final submission",
+  "current_index_progress": "ready India SQLite index 4,133,346 targets, 13GB; 500/1000 development S1 scored at 2875.7s total; active session 75633",
+  "files_changed": [
+    "solution/business_entity_resolution/src/disk_blocking.py",
+    "solution/business_entity_resolution/src/normalization.py",
+    "solution/business_entity_resolution/src/train.py",
+    "solution/business_entity_resolution/src/features.py",
+    "solution/business_entity_resolution/src/inference.py",
+    "solution/business_entity_resolution/src/diagnostics.py",
+    "experiments/eval_natural.py",
+    "scripts/validate_submission_fast.py"
+  ],
+  "tests_passed": [
+    "disk fixture parity/resume/spill/failure tests 4/4",
+    "natural evaluator tests 3/3",
+    "mini inference end-to-end 2 S1 PASS",
+    "target tuple/dict 30-feature parity PASS",
+    "fast validator subset violation regression PASS",
+    "disk inference unittest 1/1 PASS with order, empty, subset checks",
+    "bounded fast validator unittest 5/5 PASS"
+  ]
+}

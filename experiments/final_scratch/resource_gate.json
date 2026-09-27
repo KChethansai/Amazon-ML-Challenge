@@ -1,0 +1,24 @@
+{
+  "exp_id": "EXP_021_NATURAL_INDIA_FULL_POOL_RESOURCE_GATE",
+  "timestamp": "2026-09-26T09:49:07.800714+00:00",
+  "parent": "EXP_020_UPGRADED_52F_SEEDED_HOLDOUT",
+  "dataset": "1000 India holdout S1, all 4133346 India S2/S3 targets",
+  "candidate_pair_recall": null,
+  "entity_full_recall": null,
+  "zero_recovery_s1": null,
+  "precision": null,
+  "recall": null,
+  "macro_f05": null,
+  "singleton_accuracy": null,
+  "runtime_seconds_attempts": [
+    398.033,
+    541.365
+  ],
+  "exit_codes": [
+    137,
+    137
+  ],
+  "peak_rss": null,
+  "decision": "REJECT_PROMOTION",
+  "reason": "Full target index exhausted 7 GiB RAM and 3.5 GiB swap before scoring; filtered GT retry still exit 137. Natural India and full inference unvalidated."
+}

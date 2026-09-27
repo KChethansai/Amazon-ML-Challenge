@@ -1,0 +1,5 @@
+/bin/bash: line 1:     4 Killed                     .venv/bin/python experiments/eval_natural.py experiments/final_scratch > experiments/final_scratch/natural_india.log
+
+real	6m38.033s
+user	5m17.983s
+sys	0m54.637s

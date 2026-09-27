@@ -1,0 +1,17 @@
+Archive:  submission/EntityResolvers_submission.zip
+    testing: Documentation_template.md   OK
+    testing: output/candidate_pairs.tsv   OK
+    testing: output/matching_results.tsv   OK
+    testing: code/business_entity_resolution/   OK
+    testing: code/business_entity_resolution/README.md   OK
+    testing: code/business_entity_resolution/models/   OK
+    testing: code/business_entity_resolution/models/config.json   OK
+    testing: code/business_entity_resolution/models/lgbm_matcher.txt   OK
+    testing: code/business_entity_resolution/requirements.txt   OK
+    testing: code/business_entity_resolution/src/   OK
+    testing: code/business_entity_resolution/src/features.py   OK
+    testing: code/business_entity_resolution/src/blocking.py   OK
+    testing: code/business_entity_resolution/src/inference.py   OK
+    testing: code/business_entity_resolution/src/train.py   OK
+    testing: code/business_entity_resolution/src/normalization.py   OK
+No errors detected in compressed data of submission/EntityResolvers_submission.zip.

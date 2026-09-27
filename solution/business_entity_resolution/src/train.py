@@ -11,10 +11,13 @@ import lightgbm as lgb
 sys.path.insert(0, os.path.dirname(__file__))
 from normalization import (
     normalize_name, extract_name_tokens, 
-    normalize_address, extract_address_digits, extract_address_blocking_keys
+    normalize_address, extract_address_digits, extract_address_blocking_keys,
+    prepare_source_record,
 )
-from blocking import CountryBlockingIndex
+from blocking import CountryBlockingIndex, ADAPTIVE_BUDGETS
 from features import compute_pairwise_features, compute_candidate_features_for_s1, FEATURE_NAMES
+from features2 import extra_batch_for_s1, EXTRA_NAMES
+ALL_FEATURE_NAMES = FEATURE_NAMES + EXTRA_NAMES
 
 def calculate_macro_f05(ground_truth_map: dict, predictions_map: dict) -> float:
     """
@@ -121,11 +124,35 @@ def _resolve_default_train_paths():
 
 _DEF_DATA, _DEF_MODELS = _resolve_default_train_paths()
 
+def query_for_s1(c_idx, s1_rec, max_candidates=60, adaptive=False):
+    items, prov = c_idx.query_candidates(
+        s1_rec["norm_name"], s1_rec["core_tokens"], s1_rec["norm_addr"], s1_rec["addr_keys"],
+        s1_raw_addr=s1_rec["addr"], s1_raw_name=s1_rec["name"],
+        max_candidates=max_candidates, return_weights=True, return_provenance=True,
+        adaptive=adaptive)
+    return items, prov
+
+
+def featurize_s1(s1_rec, cand_items, prov, c_idx, use_extra=True):
+    vc, base_rows = compute_candidate_features_for_s1(s1_rec, cand_items, c_idx.records)
+    if not use_extra or not vc:
+        return vc, base_rows
+    wmap = {c: float(w) for c, w in cand_items} if cand_items and isinstance(cand_items[0], tuple) else {}
+    sub_items = [(c, wmap.get(c, 0.0)) for c in vc]
+    sub_prov = {c: prov.get(c, ()) for c in vc}
+    _, extra_rows = extra_batch_for_s1(s1_rec, sub_items, c_idx.records, prov_map=sub_prov)
+    return vc, [b + e for b, e in zip(base_rows, extra_rows)]
+
+
 def train_pipeline(
     data_dir: str = _DEF_DATA,
     models_dir: str = _DEF_MODELS,
     num_train_s1: int = 35000,
-    num_val_s1: int = 10000
+    num_val_s1: int = 10000,
+    max_candidates: int = 60,
+    adaptive: bool = True,
+    use_extra: bool = True,
+    neg_cap: int = 10000,
 ):
     print("=" * 70)
     print(" Amazon ML Challenge 2026: Upgraded Training & Margin Calibration")
@@ -177,28 +204,7 @@ def train_pipeline(
             if not in_train and not in_val:
                 continue
                 
-            norm_nm = normalize_name(bname)
-            core_toks, _ = extract_name_tokens(norm_nm)
-            norm_ad = normalize_address(baddr)
-            addr_keys = extract_address_blocking_keys(baddr, norm_ad)
-            digits = extract_address_digits(baddr)
-            nums = [n for n in digits if len(n) in (4, 5, 6)]
-            snums = [n for n in digits if 1 <= len(n) <= 5]
-            
-            rec = {
-                "name": bname,
-                "norm_name": norm_nm,
-                "core_tokens": core_toks,
-                "addr": baddr,
-                "norm_addr": norm_ad,
-                "addr_tokens": set(norm_ad.split()) if norm_ad else set(),
-                "addr_keys": addr_keys,
-                "digits": digits,
-                "prefix6": norm_nm[:6] if norm_nm else "",
-                "street_num": snums[0] if snums else "",
-                "postal": nums[0] if nums else "",
-                "country": bcountry
-            }
+            rec = prepare_source_record(bname, baddr, bcountry)
             
             if in_train:
                 s1_train_records[eid] = rec
@@ -246,7 +252,7 @@ def train_pipeline(
                     addr_keys = extract_address_blocking_keys(baddr, norm_ad)
                     digits = extract_address_digits(baddr)
                     c_idx.add_target_record(
-                        eid, norm_nm, core_toks, norm_ad, addr_keys, digits, is_s2=1, raw_addr=baddr
+                        eid, norm_nm, core_toks, norm_ad, addr_keys, digits, is_s2=1, raw_addr=baddr, raw_name=bname
                     )
                     
     with open(os.path.join(train_dir, "train_source3.tsv"), "r", encoding="utf-8") as f:
@@ -263,7 +269,7 @@ def train_pipeline(
                     addr_keys = extract_address_blocking_keys(baddr, norm_ad)
                     digits = extract_address_digits(baddr)
                     c_idx.add_target_record(
-                        eid, norm_nm, core_toks, norm_ad, addr_keys, digits, is_s2=0, raw_addr=baddr
+                        eid, norm_nm, core_toks, norm_ad, addr_keys, digits, is_s2=0, raw_addr=baddr, raw_name=bname
                     )
                     
     print(f"Loaded target pools in {time.time()-t0:.2f}s: US={len(country_indexes['US'].records)}, India={len(country_indexes['India'].records)}")
@@ -274,9 +280,18 @@ def train_pipeline(
     print("Step 4: Generating candidates and extracting training feature vectors...", flush=True)
     t0 = time.time()
     
+    X_chunks = []
+    y_chunks = []
     X_train = []
     y_train = []
-    
+
+    def _flush_train_chunk():
+        if X_train:
+            X_chunks.append(np.array(X_train, dtype=np.float32))
+            y_chunks.append(np.array(y_train, dtype=np.float32))
+            X_train.clear()
+            y_train.clear()
+
     for i, (s1_id, s1_rec) in enumerate(s1_train_records.items()):
         c = s1_rec["country"]
         c_idx = country_indexes.get(c)
@@ -285,63 +300,69 @@ def train_pipeline(
             
         true_targets = all_s1_gt.get(s1_id, set())
         
-        # Candidate blocking query (top 60 with collision weights)
-        cand_items = c_idx.query_candidates(
-            s1_rec["norm_name"], s1_rec["core_tokens"], 
-            s1_rec["norm_addr"], s1_rec["addr_keys"], 
-            s1_raw_addr=s1_rec["addr"],
-            max_candidates=60,
-            return_weights=True
-        )
-        
+        # Candidate blocking query (union PixelDust retrieval + rerank)
+        cand_items, prov = query_for_s1(c_idx, s1_rec, max_candidates=max_candidates, adaptive=adaptive)
+
         # Ensure true targets present in index are included in training
         existing_cids = {cid for cid, w in cand_items}
         max_w = cand_items[0][1] if cand_items else 15.0
         for t_id in true_targets:
             if t_id in c_idx.records and t_id not in existing_cids:
                 cand_items.append((t_id, max_w))
-                
+                prov[t_id] = []
+
         # Vectorized candidate feature extraction for S1
-        valid_cands, feat_rows = compute_candidate_features_for_s1(s1_rec, cand_items, c_idx.records)
-        for cid, fvec in zip(valid_cands, feat_rows):
-            is_match = 1.0 if cid in true_targets else 0.0
+        valid_cands, feat_rows = featurize_s1(s1_rec, cand_items, prov, c_idx, use_extra=use_extra)
+        # Hard-negative mining: all positives + hardest negatives by blocking weight
+        scored = [((cid in true_targets), next((w for c, w in cand_items if c == cid), 0.0), cid, fv)
+                  for cid, fv in zip(valid_cands, feat_rows)]
+        pos = [s for s in scored if s[0]]
+        neg = sorted([s for s in scored if not s[0]], key=lambda s: -s[1])[:neg_cap]
+        for is_match, _, cid, fvec in pos + neg:
             X_train.append(fvec)
-            y_train.append(is_match)
-            
-        if (i + 1) % 5000 == 0:
-            print(f"  Extracted features for {i + 1}/{len(s1_train_records)} train entities ({len(X_train):,} pairs)...", flush=True)
-            
-    X_train = np.array(X_train, dtype=np.float32)
-    y_train = np.array(y_train, dtype=np.float32)
+            y_train.append(1.0 if is_match else 0.0)
+
+        if (i + 1) % 2000 == 0:
+            _flush_train_chunk()
+            nrows = sum(len(c) for c in X_chunks)
+            print(f"  Extracted features for {i + 1}/{len(s1_train_records)} train entities ({nrows:,} pairs)...", flush=True)
+
+    _flush_train_chunk()
+    X_train = np.vstack(X_chunks) if X_chunks else np.zeros((0, len(ALL_FEATURE_NAMES if use_extra else FEATURE_NAMES)), dtype=np.float32)
+    y_train = np.concatenate(y_chunks) if y_chunks else np.zeros((0,), dtype=np.float32)
+    del X_chunks, y_chunks
     print(f"Training dataset ready in {time.time()-t0:.2f}s: {len(X_train)} pairs (Positives={int(np.sum(y_train))}, Negatives={len(y_train)-int(np.sum(y_train))})")
     
     # 5. Train LightGBM Classifier with Prescribed Hyperparameters
     print("Step 5: Training LightGBM Pairwise Classifier (num_leaves=63, max_depth=7, lr=0.06, n_estimators=300)...", flush=True)
     t0 = time.time()
     
-    train_data = lgb.Dataset(X_train, label=y_train, feature_name=FEATURE_NAMES)
+    feat_names = ALL_FEATURE_NAMES if use_extra else FEATURE_NAMES
+    train_data = lgb.Dataset(X_train, label=y_train, feature_name=feat_names)
     params = {
         "objective": "binary",
         "metric": "binary_logloss",
         "boosting_type": "gbdt",
-        "learning_rate": 0.06,
-        "num_leaves": 63,
-        "max_depth": 7,
+        "learning_rate": 0.03,
+        "num_leaves": 127,
+        "max_depth": 9,
         "subsample": 0.85,
         "subsample_freq": 1,
         "feature_fraction": 0.9,
-        "min_child_samples": 20,
+        "min_child_samples": 10,
         "n_jobs": 4,
+        "seed": 7,
+        "deterministic": True,
         "verbose": -1
     }
-    
-    model = lgb.train(params, train_data, num_boost_round=300)
+
+    model = lgb.train(params, train_data, num_boost_round=750)
     print(f"LightGBM trained in {time.time()-t0:.2f}s.")
     
     # Feature importance
     importance = model.feature_importance(importance_type="gain")
     print("Top Feature Importances:")
-    for name, imp in sorted(zip(FEATURE_NAMES, importance), key=lambda x: -x[1])[:10]:
+    for name, imp in sorted(zip(feat_names, importance), key=lambda x: -x[1])[:10]:
         print(f"  {name:28s}: {imp:.1f}")
         
     # 6. Validation & Adaptive Two-Stage Margin Threshold Grid Calibration
@@ -361,18 +382,12 @@ def train_pipeline(
             val_candidate_data[s1_id] = ([], np.array([]))
             continue
             
-        cand_items = c_idx.query_candidates(
-            s1_rec["norm_name"], s1_rec["core_tokens"], 
-            s1_rec["norm_addr"], s1_rec["addr_keys"], 
-            s1_raw_addr=s1_rec["addr"],
-            max_candidates=60,
-            return_weights=True
-        )
-        
+        cand_items, prov = query_for_s1(c_idx, s1_rec, max_candidates=max_candidates, adaptive=adaptive)
+
         cands_set = {cid for cid, w in cand_items}
         val_hits += len(val_gt_map.get(s1_id, set()) & cands_set)
-        
-        valid_cands, feat_rows = compute_candidate_features_for_s1(s1_rec, cand_items, c_idx.records)
+
+        valid_cands, feat_rows = featurize_s1(s1_rec, cand_items, prov, c_idx, use_extra=use_extra)
         if feat_rows:
             probs = model.predict(np.array(feat_rows, dtype=np.float32))
             val_candidate_data[s1_id] = (valid_cands, probs)
@@ -390,9 +405,9 @@ def train_pipeline(
     best_delta_margin = 0.15
     
     print("\nStarting Adaptive Two-Stage Grid Calibration:")
-    for tau_s in [0.66, 0.68, 0.70, 0.72, 0.74, 0.76]:
-        for tau_m in [0.45, 0.50, 0.55, 0.60]:
-            for delta_m in [0.10, 0.12, 0.15, 0.18]:
+    for tau_s in [0.60, 0.66, 0.70, 0.72, 0.76, 0.80]:
+        for tau_m in [0.40, 0.45, 0.50, 0.55]:
+            for delta_m in [0.10, 0.15, 0.18]:
                 preds = {}
                 for s1_id, (cands, probs) in val_candidate_data.items():
                     if len(probs) == 0:
@@ -435,23 +450,7 @@ def train_pipeline(
                 parts = line.rstrip("\r\n").split("\t")
                 eid, bname, baddr, bcountry = parts
                 if eid in holdout_set:
-                    norm_nm = normalize_name(bname)
-                    core_toks, _ = extract_name_tokens(norm_nm)
-                    norm_ad = normalize_address(baddr)
-                    addr_keys = extract_address_blocking_keys(baddr, norm_ad)
-                    digits = extract_address_digits(baddr)
-                    nums = [n for n in digits if len(n) in (4, 5, 6)]
-                    snums = [n for n in digits if 1 <= len(n) <= 5]
-                    holdout_s1_records[eid] = {
-                        "name": bname, "norm_name": norm_nm, "core_tokens": core_toks,
-                        "addr": baddr, "norm_addr": norm_ad,
-                        "addr_tokens": set(norm_ad.split()) if norm_ad else set(),
-                        "addr_keys": addr_keys, "digits": digits,
-                        "prefix6": norm_nm[:6] if norm_nm else "",
-                        "street_num": snums[0] if snums else "",
-                        "postal": nums[0] if nums else "",
-                        "country": bcountry
-                    }
+                    holdout_s1_records[eid] = prepare_source_record(bname, baddr, bcountry)
                     
         holdout_preds = {}
         holdout_hits = 0
@@ -463,17 +462,11 @@ def train_pipeline(
             if not c_idx:
                 holdout_preds[s1_id] = set()
                 continue
-            cand_items = c_idx.query_candidates(
-                s1_rec["norm_name"], s1_rec["core_tokens"], 
-                s1_rec["norm_addr"], s1_rec["addr_keys"], 
-                s1_raw_addr=s1_rec["addr"],
-                max_candidates=60,
-                return_weights=True
-            )
+            cand_items, prov = query_for_s1(c_idx, s1_rec, max_candidates=max_candidates, adaptive=adaptive)
             cands_set = {cid for cid, w in cand_items}
             holdout_hits += len(holdout_gt.get(s1_id, set()) & cands_set)
-            
-            valid_cands, feat_rows = compute_candidate_features_for_s1(s1_rec, cand_items, c_idx.records)
+
+            valid_cands, feat_rows = featurize_s1(s1_rec, cand_items, prov, c_idx, use_extra=use_extra)
             if feat_rows:
                 probs = model.predict(np.array(feat_rows, dtype=np.float32))
                 max_p = float(np.max(probs))
@@ -503,9 +496,13 @@ def train_pipeline(
         "tau_singleton": best_tau_singleton,
         "tau_min": best_tau_min,
         "delta_margin": best_delta_margin,
-        "max_candidates": 60,
+        "max_candidates": max_candidates,
+        "adaptive": adaptive,
+        "use_extra": use_extra,
+        "use_graph": False,
+        "neg_cap": neg_cap,
         "best_val_f05": best_f05,
-        "feature_names": FEATURE_NAMES,
+        "feature_names": feat_names,
         "num_train_s1": num_train_s1,
         "num_val_s1": num_val_s1,
         "trained_date": time.strftime("%Y-%m-%d %H:%M:%S")
@@ -528,11 +525,21 @@ if __name__ == "__main__":
     parser.add_argument("--models-dir", default=_DEF_MODELS, help=f"Path to models output directory (default: {_DEF_MODELS})")
     parser.add_argument("--num-train-s1", type=int, default=35000, help="Number of S1 training entities (default: 35000)")
     parser.add_argument("--num-val-s1", type=int, default=10000, help="Number of S1 validation entities (default: 10000)")
+    parser.add_argument("--max-candidates", type=int, default=60)
+    parser.add_argument("--adaptive", action="store_true", default=True)
+    parser.add_argument("--no-adaptive", dest="adaptive", action="store_false")
+    parser.add_argument("--use-extra", action="store_true", default=True)
+    parser.add_argument("--no-extra", dest="use_extra", action="store_false")
+    parser.add_argument("--neg-cap", type=int, default=10000)
     args = parser.parse_args()
 
     train_pipeline(
         data_dir=args.data_dir,
         models_dir=args.models_dir,
         num_train_s1=args.num_train_s1,
-        num_val_s1=args.num_val_s1
+        num_val_s1=args.num_val_s1,
+        max_candidates=args.max_candidates,
+        adaptive=args.adaptive,
+        use_extra=args.use_extra,
+        neg_cap=args.neg_cap,
     )

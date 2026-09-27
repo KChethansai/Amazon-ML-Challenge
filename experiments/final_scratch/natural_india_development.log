@@ -1,0 +1,46 @@
+scored 100/1,000 S1 in 165.8s
+scored 200/1,000 S1 in 286.6s
+scored 300/1,000 S1 in 388.3s
+scored 400/1,000 S1 in 488.7s
+scored 500/1,000 S1 in 586.3s
+scored 600/1,000 S1 in 689.2s
+scored 700/1,000 S1 in 792.8s
+scored 800/1,000 S1 in 902.2s
+scored 900/1,000 S1 in 1004.4s
+scored 1,000/1,000 S1 in 1105.4s
+{
+  "macro_f05": 0.8261945057597613,
+  "precision": 0.8632103104862332,
+  "recall": 0.8556910569105691,
+  "singleton_accuracy": 0.39622641509433965,
+  "pred_singletons": 32,
+  "total_entities": 1000,
+  "candidate_pair_recall": 0.914924506387921,
+  "entity_full_recall": 0.7687434002111933,
+  "zero_recovery_s1": 9,
+  "non_singleton_s1": 947,
+  "candidate_count": 150500,
+  "candidate_count_stats": {
+    "min": 150,
+    "mean": 150.5,
+    "p50": 150,
+    "p95": 150,
+    "p99": 150,
+    "max": 250
+  },
+  "oracle_macro_f05": 0.9689044247325984,
+  "oracle_precision": 1.0,
+  "oracle_recall": 0.914924506387921,
+  "sample": "development",
+  "sample_role": "development",
+  "index_path": "experiments/final_scratch/india_train.sqlite",
+  "index_targets": 4133346,
+  "index_bytes": 13738643456,
+  "index_build_seconds": 0.0,
+  "model_dir": "experiments/final_scratch",
+  "query_seconds": 1063.54,
+  "feature_seconds": 34.861,
+  "model_seconds": 4.699,
+  "runtime_seconds": 1105.446,
+  "peak_rss_bytes": 195051520
+}

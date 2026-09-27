@@ -10,16 +10,20 @@ import json
 import gc
 import re
 import hashlib
+import sqlite3
 import numpy as np
 import lightgbm as lgb
 
 sys.path.insert(0, os.path.dirname(__file__))
 from normalization import (
     normalize_name, extract_name_tokens, 
-    normalize_address, extract_address_digits, extract_address_blocking_keys
+    normalize_address, extract_address_digits, extract_address_blocking_keys,
+    prepare_source_record,
 )
-from blocking import CountryBlockingIndex
-from features import compute_pairwise_features, compute_candidate_features_for_s1
+from disk_blocking import DiskCountryBlockingIndex
+from features import compute_pairwise_features, compute_candidate_features_for_s1, FEATURE_NAMES
+from features2 import extra_batch_for_s1, EXTRA_NAMES
+from graph import apply_graph_bridge
 
 import argparse
 
@@ -78,16 +82,26 @@ def run_inference(
     tau_min = config.get("tau_min", 0.55)
     delta_margin = config.get("delta_margin", 0.15)
     max_candidates = config.get("max_candidates", 60)
+    adaptive = config.get("adaptive", True)
+    use_extra = config.get("use_extra", len(config.get("feature_names", ())) > len(FEATURE_NAMES))
+    use_graph = config.get("use_graph", False)
+    graph_score_min = config.get("graph_score_min", 0.999)
+    graph_bridge_min = config.get("graph_bridge_min", 80)
     N_WORKERS = 1
     
+    model_features = lgb.Booster(model_file=model_path).num_feature()
+    expected_names = FEATURE_NAMES + (EXTRA_NAMES if use_extra else [])
+    configured_names = config.get("feature_names", [])
+    if model_features != len(expected_names) or configured_names != expected_names:
+        raise ValueError("Model/config/runtime feature ordering mismatch")
     print(f"Model Path: {model_path}")
     print(f"Calibration Parameters: tau_singleton={tau_singleton:.2f}, tau_min={tau_min:.2f}, delta_margin={delta_margin:.2f}, max_candidates={max_candidates}")
     
-    # 2. Record S1 ordered IDs only (takes ~20 MB RAM)
-    print("Step 1: Indexing test_source1.tsv IDs...", flush=True)
+    # Count S1 by country. Final output order is recovered by streaming this file.
+    print("Step 1: Counting test_source1.tsv IDs...", flush=True)
     t0 = time.time()
-    s1_ordered_ids = []
     country_counts = {}
+    total_s1 = 0
     
     s1_file = os.path.join(test_dir, "test_source1.tsv")
     with open(s1_file, "r", encoding="utf-8") as f:
@@ -96,10 +110,9 @@ def run_inference(
             parts = line.rstrip("\r\n").split("\t")
             eid = parts[0]
             country = parts[3] if len(parts) > 3 else "UNKNOWN"
-            s1_ordered_ids.append(eid)
+            total_s1 += 1
             country_counts[country] = country_counts.get(country, 0) + 1
-                
-    total_s1 = len(s1_ordered_ids)
+
     print(f"Recorded {total_s1} S1 entities in {time.time()-t0:.2f}s:")
     for c, cnt in country_counts.items():
         print(f"  {c:7s}: {cnt:8d} entities")
@@ -120,47 +133,51 @@ def run_inference(
         print(f"Processing Country: {country} ({n_entities} S1 entities)...", flush=True)
         t_country_start = time.time()
         
-        c_idx = CountryBlockingIndex(country)
+        index_dir = os.path.join(temp_dir, "indices")
+        os.makedirs(index_dir, exist_ok=True)
+        index_path = os.path.join(index_dir, f"{country_file}.sqlite")
+        build_index = not os.path.isfile(index_path)
+        c_idx = DiskCountryBlockingIndex(country, index_path, create=build_index)
+        c_idx.set_source_fingerprint([s2_file, s3_file])
         
         # Load S2 for this country
         print(f"  Streaming S2 for {country}...", flush=True)
         t_s2 = time.time()
         count_s2 = 0
-        with open(s2_file, "r", encoding="utf-8") as f:
-            next(f)
-            for line in f:
-                parts = line.rstrip("\r\n").split("\t")
-                if len(parts) >= 4 and parts[3] == country:
-                    eid, bname, baddr, _ = parts
-                    norm_nm = normalize_name(bname)
-                    core_toks, _ = extract_name_tokens(norm_nm)
-                    norm_ad = normalize_address(baddr)
-                    addr_keys = extract_address_blocking_keys(baddr, norm_ad)
-                    digits = extract_address_digits(baddr)
-                    c_idx.add_target_record(eid, norm_nm, core_toks, norm_ad, addr_keys, digits, is_s2=1, raw_addr=baddr)
-                    count_s2 += 1
+        if build_index:
+            with open(s2_file, "r", encoding="utf-8") as f:
+                next(f)
+                for line in f:
+                    parts = line.rstrip("\r\n").split("\t")
+                    if len(parts) >= 4 and parts[3] == country:
+                        eid, bname, baddr, _ = parts
+                        rec = prepare_source_record(bname, baddr, country)
+                        c_idx.add_target_record(eid, rec["norm_name"], rec["core_tokens"], rec["norm_addr"],
+                                                rec["addr_keys"], rec["digits"], is_s2=1,
+                                                raw_addr=baddr, raw_name=bname)
+                        count_s2 += 1
         print(f"  Loaded {count_s2} S2 records in {time.time()-t_s2:.2f}s")
         
         # Load S3 for this country
         print(f"  Streaming S3 for {country}...", flush=True)
         t_s3 = time.time()
         count_s3 = 0
-        with open(s3_file, "r", encoding="utf-8") as f:
-            next(f)
-            for line in f:
-                parts = line.rstrip("\r\n").split("\t")
-                if len(parts) >= 4 and parts[3] == country:
-                    eid, bname, baddr, _ = parts
-                    norm_nm = normalize_name(bname)
-                    core_toks, _ = extract_name_tokens(norm_nm)
-                    norm_ad = normalize_address(baddr)
-                    addr_keys = extract_address_blocking_keys(baddr, norm_ad)
-                    digits = extract_address_digits(baddr)
-                    c_idx.add_target_record(eid, norm_nm, core_toks, norm_ad, addr_keys, digits, is_s2=0, raw_addr=baddr)
-                    count_s3 += 1
+        if build_index:
+            with open(s3_file, "r", encoding="utf-8") as f:
+                next(f)
+                for line in f:
+                    parts = line.rstrip("\r\n").split("\t")
+                    if len(parts) >= 4 and parts[3] == country:
+                        eid, bname, baddr, _ = parts
+                        rec = prepare_source_record(bname, baddr, country)
+                        c_idx.add_target_record(eid, rec["norm_name"], rec["core_tokens"], rec["norm_addr"],
+                                                rec["addr_keys"], rec["digits"], is_s2=0,
+                                                raw_addr=baddr, raw_name=bname)
+                        count_s3 += 1
         print(f"  Loaded {count_s3} S3 records in {time.time()-t_s3:.2f}s")
         
-        c_idx.prune_frequent_keys()
+        if build_index:
+            c_idx.prune_frequent_keys()
         
         # Stream S1 sequentially with batch prediction & 4 internal predict threads
         part_file = existing_parts[0]
@@ -182,7 +199,7 @@ def run_inference(
                 return
             probs = model.predict(np.array(b_feats, dtype=np.float32))
             offset = 0
-            for b_eid, b_cand_str, b_cands, n_f in b_recs:
+            for b_eid, b_cand_str, b_cands, b_s1rec, n_f in b_recs:
                 b_probs = probs[offset:offset+n_f]
                 offset += n_f
                 max_p = float(np.max(b_probs))
@@ -191,6 +208,14 @@ def run_inference(
                 else:
                     cutoff = max(tau_min, max_p - delta_margin)
                     matches = [cid for cid, p in zip(b_cands, b_probs) if p >= cutoff]
+                    if use_graph:
+                        prob_map = {cid: float(p) for cid, p in zip(b_cands, b_probs)}
+                        bridged = apply_graph_bridge(b_s1rec, matches, prob_map, c_idx, model,
+                                                     use_extra=use_extra, score_min=graph_score_min,
+                                                     bridge_min=graph_bridge_min)
+                        if bridged:
+                            matches = matches + [c for c in bridged if c not in matches]
+                            b_cand_str = b_cand_str + "," + ",".join(c for c in bridged if c not in b_cand_str.split(","))
                     match_str = ",".join(matches)
                 out_file.write(f"{b_eid}\t{b_cand_str}\t{match_str}\n")
                 count_w += 1
@@ -211,42 +236,33 @@ def run_inference(
                     norm_ad = normalize_address(baddr)
                     addr_keys = extract_address_blocking_keys(baddr, norm_ad)
                     digits = extract_address_digits(baddr)
-                    nums = [n for n in digits if len(n) in (4, 5, 6)]
-                    snums = [n for n in digits if 1 <= len(n) <= 5]
+                    s1_rec = prepare_source_record(bname, baddr, country)
                     
-                    s1_rec = {
-                        "name": bname,
-                        "norm_name": norm_nm,
-                        "core_tokens": core_toks,
-                        "addr": baddr,
-                        "norm_addr": norm_ad,
-                        "addr_tokens": set(norm_ad.split()) if norm_ad else set(),
-                        "addr_keys": addr_keys,
-                        "digits": digits,
-                        "prefix6": norm_nm[:6] if norm_nm else "",
-                        "street_num": snums[0] if snums else "",
-                        "postal": nums[0] if nums else "",
-                        "country": country
-                    }
-                    
-                    cand_items = c_idx.query_candidates(
+                    cand_items, prov = c_idx.query_candidates(
                         norm_nm, core_toks, norm_ad, addr_keys,
-                        s1_raw_addr=baddr,
+                        s1_raw_addr=baddr, s1_raw_name=bname,
                         max_candidates=max_candidates,
-                        return_weights=True
+                        return_weights=True, return_provenance=True,
+                        adaptive=adaptive
                     )
-                    
+
                     if not cand_items:
                         out_f.write(f"{eid}\t\t\n")
                         count_w += 1
                         continue
-                        
+
                     cand_str = ",".join(cid for cid, w in cand_items)
-                    
+
                     valid_cands, feat_rows = compute_candidate_features_for_s1(s1_rec, cand_items, c_idx.records)
-                            
+                    if use_extra and valid_cands:
+                        wmap = {c: float(w) for c, w in cand_items}
+                        sub_items = [(c, wmap.get(c, 0.0)) for c in valid_cands]
+                        sub_prov = {c: prov.get(c, ()) for c in valid_cands}
+                        _, extra_rows = extra_batch_for_s1(s1_rec, sub_items, c_idx.records, prov_map=sub_prov)
+                        feat_rows = [b + e for b, e in zip(feat_rows, extra_rows)]
+
                     if feat_rows:
-                        batch_records.append((eid, cand_str, valid_cands, len(feat_rows)))
+                        batch_records.append((eid, cand_str, valid_cands, s1_rec, len(feat_rows)))
                         batch_features.extend(feat_rows)
                     else:
                         out_f.write(f"{eid}\t{cand_str}\t\n")
@@ -266,16 +282,18 @@ def run_inference(
         print(f"  Finished {country} in {time.time()-t_country_start:.2f}s.")
         
         # Free memory before next country
-        del c_idx
-        gc.collect()
-        gc.collect()
+        c_idx.close()
         
     # 4. Merge Temp Files into Final Submissions Preserving Exact S1 Order
     print("\n" + "=" * 70)
     print("Step 4: Merging temp results into final submission TSVs...", flush=True)
     t0 = time.time()
     
-    res_map = {}
+    result_db_path = os.path.join(temp_dir, "results.sqlite")
+    result_db = sqlite3.connect(result_db_path)
+    result_db.execute("CREATE TABLE IF NOT EXISTS results (eid TEXT PRIMARY KEY, candidates TEXT, matches TEXT)")
+    result_db.execute("DELETE FROM results")
+    merged_rows = 0
     for country in country_counts:
         country_file = country if re.fullmatch(r"[A-Za-z0-9_-]+", country) else hashlib.sha1(country.encode()).hexdigest()
         for w_idx in range(N_WORKERS):
@@ -285,40 +303,52 @@ def run_inference(
                 with open(tfile, "r", encoding="utf-8") as f:
                     for line in f:
                         parts = line.rstrip("\r\n").split("\t")
-                        if len(parts) >= 3:
-                            res_map[parts[0]] = (parts[1], parts[2])
-                        elif len(parts) == 2:
-                            res_map[parts[0]] = (parts[1], "")
-                        elif len(parts) == 1:
-                            res_map[parts[0]] = ("", "")
+                        if len(parts) < 3:
+                            raise ValueError(f"Malformed temporary result row in {tfile}")
+                        result_db.execute("INSERT INTO results VALUES (?,?,?)", (parts[0], parts[1], parts[2]))
+                        merged_rows += 1
+                        if merged_rows % 10_000 == 0:
+                            result_db.commit()
+    result_db.commit()
                         
     cand_path = os.path.join(output_dir, "candidate_pairs.tsv")
     match_path = os.path.join(output_dir, "matching_results.tsv")
-    if len(res_map) != total_s1:
-        raise RuntimeError(f"Expected {total_s1} scored S1 entities, found {len(res_map)}")
+    cand_partial = cand_path + ".partial"
+    match_partial = match_path + ".partial"
+    if merged_rows != total_s1:
+        raise RuntimeError(f"Expected {total_s1} scored S1 entities, found {merged_rows}")
     
     print(f"Writing {cand_path} and {match_path} in exact test order...", flush=True)
     matched_count = 0
     singleton_count = 0
     total_links = 0
     
-    with open(cand_path, "w", encoding="utf-8") as f_cand, \
-         open(match_path, "w", encoding="utf-8") as f_match:
+    with open(cand_partial, "w", encoding="utf-8") as f_cand, \
+         open(match_partial, "w", encoding="utf-8") as f_match:
          
         f_cand.write("source1_entity_id\tcandidate_entity_ids\n")
         f_match.write("source1_entity_id\tmatched_entity_ids\n")
         
-        for s1_id in s1_ordered_ids:
-            c_str, m_str = res_map[s1_id]
+        with open(s1_file, "r", encoding="utf-8") as source:
+            next(source)
+            for line in source:
+                s1_id = line.partition("\t")[0]
+                result = result_db.execute("SELECT candidates,matches FROM results WHERE eid=?", (s1_id,)).fetchone()
+                if result is None:
+                    raise RuntimeError(f"No scored result for {s1_id}")
+                c_str, m_str = result
             
-            f_cand.write(f"{s1_id}\t{c_str}\n")
-            f_match.write(f"{s1_id}\t{m_str}\n")
+                f_cand.write(f"{s1_id}\t{c_str}\n")
+                f_match.write(f"{s1_id}\t{m_str}\n")
             
-            if m_str:
-                matched_count += 1
-                total_links += len(m_str.split(","))
-            else:
-                singleton_count += 1
+                if m_str:
+                    matched_count += 1
+                    total_links += len(m_str.split(","))
+                else:
+                    singleton_count += 1
+    result_db.close()
+    os.replace(cand_partial, cand_path)
+    os.replace(match_partial, match_path)
                 
     # Clean up temp directory
     for country in country_counts:

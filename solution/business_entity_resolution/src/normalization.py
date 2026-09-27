@@ -39,9 +39,12 @@ STOPWORDS = {
 }
 
 def clean_unicode_to_ascii(text: str) -> str:
-    """Normalize unicode characters, decompose accents (e.g. French e/e/c to e/e/c)."""
+    """Normalize unicode characters, decompose accents (e.g. French e/e/c to e/e/c) without destroying Indic matras."""
     if not text:
         return ""
+    # For Indic scripts (Devanagari, Bengali, Gujarati, Tamil, etc.), NFKC preserves vowel matras and viramas
+    if any(0x0900 <= ord(c) <= 0x0D7F for c in text):
+        return unicodedata.normalize("NFKC", text)
     # NFKD decomposes accented characters into base char + combining mark
     decomposed = unicodedata.normalize("NFKD", text)
     # Strip combining marks (accents)
@@ -133,3 +136,32 @@ def extract_address_blocking_keys(addr: str, norm_addr: str):
         keys.append(("POSTAL", p))
         
     return keys
+
+
+def prepare_source_record(name: str, addr: str, country: str) -> dict:
+    """Prepare one S1 record identically for training and inference.
+
+    Keep the raw fields for feature extraction. Numeric fields use their first
+    occurrence in the address so their selection does not depend on set order.
+    """
+    norm_name = normalize_name(name)
+    core_tokens, _ = extract_name_tokens(norm_name)
+    norm_addr = normalize_address(addr)
+    digits = extract_address_digits(addr)
+    ordered_digits = NUM_ONLY_RE.findall(addr or "")
+    postal = next((n for n in ordered_digits if len(n) in (4, 5, 6)), "")
+    street_num = next((n for n in ordered_digits if 1 <= len(n) <= 5), "")
+    return {
+        "name": name,
+        "norm_name": norm_name,
+        "core_tokens": core_tokens,
+        "addr": addr,
+        "norm_addr": norm_addr,
+        "addr_tokens": set(norm_addr.split()) if norm_addr else set(),
+        "addr_keys": extract_address_blocking_keys(addr, norm_addr),
+        "digits": digits,
+        "prefix6": norm_name[:6] if norm_name else "",
+        "street_num": street_num,
+        "postal": postal,
+        "country": country,
+    }

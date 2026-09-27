@@ -1,0 +1,26 @@
+{
+  "submission/EntityResolvers_submission.zip": {
+    "size": 615769556,
+    "sha256": "3602d3301364b6afeba34faa8cf75c989c77ee2fed933605b5760e9c4fad2930"
+  },
+  "output/candidate_pairs.tsv": {
+    "size": 1361476894,
+    "sha256": "7fca310d07aeabd6923db73544d1963d06cb682acf29ee96bba29cc2ee8d0255"
+  },
+  "output/matching_results.tsv": {
+    "size": 104652817,
+    "sha256": "7047bb4b00f8833475b4bf7e958e91f1a9b624f60f63a1420063f9ce68d55c78"
+  },
+  "experiments/final_scratch/lgbm_matcher.txt": {
+    "size": 10507707,
+    "sha256": "2c471869f1b1069932715c9f500d5dd8248044036625503103a8b14a63103441"
+  },
+  "experiments/final_scratch/config.json": {
+    "size": 1786,
+    "sha256": "da020e730032f1936aeb6404c04ef2c48d9e746369bbd01a2beb7145e2fd9250"
+  },
+  "partial_index": {
+    "committed_records": 792607,
+    "backup_path": "experiments/upgrade_protection/india_train_partial_backup.sqlite"
+  }
+}

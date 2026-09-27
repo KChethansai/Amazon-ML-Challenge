@@ -50,8 +50,9 @@ def compute_pairwise_features(
             tgt_addr_tokens = a2.split() if a2 else []
             tgt_digits = set(NUM_ONLY_RE.findall(a2)) if a2 else set()
             tgt_pfx6 = n2[:6] if n2 else ""
-            postals = [n for n in tgt_digits if 4 <= len(n) <= 6]
-            snums = [n for n in tgt_digits if 1 <= len(n) <= 5]
+            ordered_digits = NUM_ONLY_RE.findall(a2) if a2 else []
+            postals = [n for n in ordered_digits if 4 <= len(n) <= 6]
+            snums = [n for n in ordered_digits if 1 <= len(n) <= 5]
             tgt_postal = postals[0] if postals else ""
             tgt_snum = snums[0] if snums else ""
         is_s2 = tgt_is_s2
@@ -62,10 +63,11 @@ def compute_pairwise_features(
         tgt_addr_tokens = tgt_rec.get("addr_tokens", a2.split() if a2 else [])
         tgt_digits = tgt_rec.get("digits", set(NUM_ONLY_RE.findall(a2)) if a2 else set())
         tgt_pfx6 = n2[:6] if n2 else ""
-        postals = [n for n in tgt_digits if 4 <= len(n) <= 6]
-        snums = [n for n in tgt_digits if 1 <= len(n) <= 5]
-        tgt_postal = postals[0] if postals else ""
-        tgt_snum = snums[0] if snums else ""
+        ordered_digits = NUM_ONLY_RE.findall(a2) if a2 else []
+        postals = [n for n in ordered_digits if 4 <= len(n) <= 6]
+        snums = [n for n in ordered_digits if 1 <= len(n) <= 5]
+        tgt_postal = tgt_rec.get("postal", postals[0] if postals else "")
+        tgt_snum = tgt_rec.get("street_num", snums[0] if snums else "")
         if is_s2 is None:
             is_s2 = tgt_rec.get("is_s2", 0)
 
@@ -256,8 +258,9 @@ def compute_candidate_features_for_s1(s1_rec: dict, candidate_items: list, recor
 
     valid_cands = []
     features = []
+    rec_map = records_dict.get_many(cands) if hasattr(records_dict, "get_many") else None
     for rank, (cid, w) in enumerate(zip(cands, weights)):
-        tgt_rec = records_dict.get(cid)
+        tgt_rec = rec_map.get(cid) if rec_map is not None else records_dict.get(cid)
         if tgt_rec is not None:
             feat_vec = compute_pairwise_features(
                 s1_rec, tgt_rec, 
