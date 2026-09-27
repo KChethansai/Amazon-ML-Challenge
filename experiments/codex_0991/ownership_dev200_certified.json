@@ -1,0 +1,41 @@
+{
+  "sample": "natural_development",
+  "limit": 200,
+  "config_path": "experiments/codex_0991/baseline/certified_output_config.json",
+  "thresholds": {
+    "tau_singleton": 0.8,
+    "tau_min": 0.4,
+    "delta_margin": 0.1
+  },
+  "baseline": {
+    "macro_f05": 0.858775704084048,
+    "precision": 0.8762306610407876,
+    "recall": 0.89,
+    "singleton_accuracy": 0.42857142857142855,
+    "pred_singletons": 3,
+    "total_entities": 200
+  },
+  "baseline_false_positives": {
+    "singleton_false_positive_links": 8,
+    "multi_entity_false_positive_links": 80
+  },
+  "ownership": {
+    "macro_f05": 0.858775704084048,
+    "precision": 0.8762306610407876,
+    "recall": 0.89,
+    "singleton_accuracy": 0.42857142857142855,
+    "pred_singletons": 3,
+    "total_entities": 200
+  },
+  "ownership_false_positives": {
+    "singleton_false_positive_links": 8,
+    "multi_entity_false_positive_links": 80
+  },
+  "candidate_oracle_f05": 0.9916303126822577,
+  "conflicts": {
+    "targets_with_multiple_sampled_candidates": 323,
+    "targets_with_multiple_baseline_owners": 0,
+    "rejected_because_best_owner_did_not_accept": 0,
+    "rejected_for_margin": 0
+  }
+}

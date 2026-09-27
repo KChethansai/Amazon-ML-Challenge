@@ -130,9 +130,9 @@
     "S1-275290008"
   ],
   "model_dir": "experiments/final_scratch",
-  "query_seconds": 283.999,
-  "feature_seconds": 4.066,
-  "model_seconds": 0.499,
-  "runtime_seconds": 290.738,
+  "query_seconds": 491.783,
+  "feature_seconds": 4.761,
+  "model_seconds": 0.535,
+  "runtime_seconds": 500.705,
   "peak_rss_bytes": 537952256
 }

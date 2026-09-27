@@ -1,0 +1,48 @@
+{
+  "sample": "natural_development",
+  "limit": 200,
+  "scope": "ownership competition among sampled S1 only",
+  "model_dir": "experiments/final_scratch",
+  "index_path": "experiments/final_scratch/india_train.sqlite",
+  "thresholds": {
+    "tau_singleton": 0.82,
+    "tau_min": 0.4,
+    "delta_margin": 0.15
+  },
+  "minimum_owner_margin": 0.0,
+  "baseline": {
+    "macro_f05": 0.8470327973549396,
+    "precision": 0.8559892328398385,
+    "recall": 0.9085714285714286,
+    "singleton_accuracy": 0.42857142857142855,
+    "pred_singletons": 3,
+    "total_entities": 200
+  },
+  "baseline_false_positives": {
+    "singleton_false_positive_links": 8,
+    "multi_entity_false_positive_links": 99
+  },
+  "ownership": {
+    "macro_f05": 0.8470327973549396,
+    "precision": 0.8559892328398385,
+    "recall": 0.9085714285714286,
+    "singleton_accuracy": 0.42857142857142855,
+    "pred_singletons": 3,
+    "total_entities": 200
+  },
+  "ownership_false_positives": {
+    "singleton_false_positive_links": 8,
+    "multi_entity_false_positive_links": 99
+  },
+  "candidate_oracle_f05": 0.9916303126822577,
+  "candidate_pair_recall": 0.9685714285714285,
+  "conflicts": {
+    "targets_with_multiple_sampled_candidates": 323,
+    "targets_with_multiple_baseline_owners": 0,
+    "rejected_because_best_owner_did_not_accept": 0,
+    "rejected_for_margin": 0
+  },
+  "index_build_seconds": 0.0,
+  "runtime_seconds": 1117.02,
+  "peak_rss_bytes": 228290560
+}

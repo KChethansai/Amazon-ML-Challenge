@@ -8,7 +8,7 @@
   "candidate_recall": 0.9891891891891892,
   "singleton_accuracy": 1.0,
   "candidate_count": null,
-  "runtime_seconds": 152.0,
+  "runtime_seconds": 185.9,
   "prior_validated": {
     "EXP_005_replay": 0.9420544908655107,
     "EXP_013_graph": 0.9497547984072268,

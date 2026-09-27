@@ -1,0 +1,15 @@
+{
+  "sample": "natural_development",
+  "limit": 100,
+  "scope": "unranked oracle upper bound; extra candidates are not production scored",
+  "baseline_oracle_macro_f05": 0.9949404761904762,
+  "expanded_oracle_macro_f05": 0.9949404761904762,
+  "baseline_pair_recall": 0.9827586206896551,
+  "expanded_pair_recall": 0.9827586206896551,
+  "recovered_true_targets": 0,
+  "dictionary_entries": 566,
+  "max_variants": 3,
+  "max_postings": 5000,
+  "runtime_seconds": 513.73,
+  "peak_rss_bytes": 203005952
+}
