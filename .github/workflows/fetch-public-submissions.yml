@@ -1,0 +1,70 @@
+name: Fetch public submission candidates
+
+on:
+  push:
+    branches:
+      - artifact-fetch-20260927
+
+permissions:
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch candidate TSVs
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p artifacts
+
+          curl -L --fail --retry 3             https://raw.githubusercontent.com/SaiMukhund/amazon_ml_26/main/submissions/v3_france/matching_results.tsv.gz             -o artifacts/sai_v3_france.tsv.gz
+          gunzip -k artifacts/sai_v3_france.tsv.gz
+
+          curl -L --fail --retry 3             https://raw.githubusercontent.com/SaiMukhund/amazon_ml_26/main/submissions/merge/matching_results.tsv.gz             -o artifacts/sai_merge.tsv.gz
+          gunzip -k artifacts/sai_merge.tsv.gz
+
+          curl -L --fail --retry 3             https://raw.githubusercontent.com/SaiMukhund/amazon_ml_26/main/submissions/v2_fix/matching_results.tsv.gz             -o artifacts/sai_v2_fix.tsv.gz
+          gunzip -k artifacts/sai_v2_fix.tsv.gz
+
+          curl -L --fail --retry 3             https://raw.githubusercontent.com/Siva402-ai/amazon-ml-challenge-2026/main/output/v4_c4fr_frp_t90/matching_results.tsv             -o artifacts/siva_v4_frp_t90.tsv
+
+          curl -L --fail --retry 3             https://raw.githubusercontent.com/Siva402-ai/amazon-ml-challenge-2026/main/output/v3_roles/matching_results.tsv             -o artifacts/siva_v3_roles.tsv
+
+          sha256sum artifacts/*.tsv | tee artifacts/SHA256SUMS.txt
+          wc -l artifacts/*.tsv | tee artifacts/LINE_COUNTS.txt
+
+      - name: Upload Sai v3 France
+        uses: actions/upload-artifact@v4
+        with:
+          name: sai-v3-france
+          path: artifacts/sai_v3_france.tsv
+          compression-level: 6
+
+      - name: Upload Sai merge
+        uses: actions/upload-artifact@v4
+        with:
+          name: sai-merge
+          path: artifacts/sai_merge.tsv
+          compression-level: 6
+
+      - name: Upload Sai v2 fix
+        uses: actions/upload-artifact@v4
+        with:
+          name: sai-v2-fix
+          path: artifacts/sai_v2_fix.tsv
+          compression-level: 6
+
+      - name: Upload Siva v4
+        uses: actions/upload-artifact@v4
+        with:
+          name: siva-v4-frp-t90
+          path: artifacts/siva_v4_frp_t90.tsv
+          compression-level: 6
+
+      - name: Upload Siva v3
+        uses: actions/upload-artifact@v4
+        with:
+          name: siva-v3-roles
+          path: artifacts/siva_v3_roles.tsv
+          compression-level: 6
