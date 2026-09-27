@@ -1,0 +1,28 @@
+name: Fetch more public candidates
+on:
+  push:
+    branches: [artifact-fetch-20260927]
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p artifacts
+          for v in v1 v2; do
+            curl -L --fail --retry 3 "https://raw.githubusercontent.com/SaiMukhund/amazon_ml_26/main/submissions/$v/matching_results.tsv.gz" -o "artifacts/$v.tsv.gz"
+            gunzip -k "artifacts/$v.tsv.gz"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sai-v2
+          path: artifacts/v2.tsv
+          compression-level: 6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sai-v1
+          path: artifacts/v1.tsv
+          compression-level: 6
